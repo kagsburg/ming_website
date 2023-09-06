@@ -61,7 +61,7 @@ $page='team';
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner2.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/aboutheader.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">

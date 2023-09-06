@@ -3,7 +3,11 @@
 // $db = new DB();
 include ("includes/config.php");
 $page='service';
+$id = $_GET['id'];
 
+$sql = mysqli_query($con, "SELECT * FROM projects WHERE id = '$id'");
+$row = mysqli_fetch_array($sql);
+$data = $row;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,15 +69,15 @@ $page='service';
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner2.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/porfolio.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
                             <h1 class="banner-title"><?php echo $data['title']; ?></h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.php">Home</a></li>
-                                <li><a href="portfolio.php">Projects</a></li>
+                                <li><a href="index">Home</a></li>
+                                <li><a href="portfolio">Projects</a></li>
                             </ol>
                         </div>
                     </div>
@@ -100,24 +104,22 @@ $page='service';
                             <!-- Indicators end-->
                             <!-- Carousel inner-->
                             <div class="carousel-inner">
-                                <div class="carousel-item active"
-                                    style="background-image:url(images/projects/project1.jpg);">
+                                <?php 
+                                $count = 0;
+	                                        $sql=mysqli_query($con,"SELECT gallery.* from gallery inner join projects on gallery.project_id=projects.id where projects.id='1'");
+                                            if (mysqli_num_rows($sql)>0) {
+                                                while ($row=mysqli_fetch_array($sql)) {
+                                                    $count++;
+                                                    $image=$row['image'];
+                                                    $id=$row['id'];
+                                                    ?>
+                                <div class="carousel-item <?php if ($count == 1) echo 'active' ?>"
+                                    style="background-image:url(images/gallery/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>);">
                                 </div>
-                                <!-- Carousel item 1 end-->
-                                <div class="carousel-item" style="background-image:url(images/projects/project2.jpg);">
-                                </div>
-                                <!-- Carousel item 2 end-->
-                                <div class="carousel-item" style="background-image:url(images/projects/project3.jpg);">
-                                </div>
-                                <!-- Carousel item 3 end-->
-                                <div class="carousel-item" style="background-image:url(images/projects/project4.jpg);">
-                                </div>
-                                <!-- Carousel item 4 end -->
-                                <div class="carousel-item" style="background-image:url(images/projects/project5.jpg);">
-                                </div>
-                                <!-- Carousel item 5 end -->
-                                <div class="carousel-item" style="background-image:url(images/projects/project6.jpg);">
-                                </div>
+                                <?php
+                                                }
+                                            }
+                                            ?>
                                 <!-- Carousel item 6 end -->
                             </div>
                             <!-- Carousel inner end-->
@@ -185,12 +187,22 @@ $page='service';
                                 <div class="collapse" id="collapseThree" aria-labelledby="headingThree"
                                     data-parent="#accordion">
                                     <div class="card-body">
-                                        <p><?php echo $data['service']; ?></p>
+                                        <?php 
+                                        // get service name
+                                        $sql3=mysqli_query($con,"SELECT * FROM services where id='".$data['service']."'");                                        
+                                        if (mysqli_num_rows($sql3)>0) {
+                                            while ($row3=mysqli_fetch_array($sql3)) {
+                                                $service=$row3['name'];
+                                        ?>
+                                        <p><?php echo $service; ?></p>
+                                        <?php
+                                            }
+                                        }?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <a href="portfolio.php" class="btn-block btn btn-primary">View Projects</a>
+                        <a href="portfolio" class="btn-block btn btn-primary">View Projects</a>
 
                     </div>
                     <!-- col end -->

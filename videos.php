@@ -92,12 +92,13 @@ $page='media';
                 </div>
                 <div class="row">
                     <?php
-                            $sql=mysqli_query($con,"SELECT * FROM youtube_links order by created_at desc");
+                            $sql=mysqli_query($con,"SELECT * FROM youtube_links where status ='1' order by id desc");
                             while($row=mysqli_fetch_array($sql)){
                             ?>
                     <div class="col-md-4">
                         <iframe height="320" width="320"
                             src="<?php echo $row["link"]."?autoplay=1&mute=1"; ?>"></iframe>
+                        <br>
                         <span><?php echo $row['caption'] ?></span>
                     </div>
                     <?php } ?>
@@ -107,19 +108,20 @@ $page='media';
                 <div class="gap-60"></div>
                 <div class="row">
                     <?php
-	                        $fetchVideos = mysqli_query($con, "SELECT * FROM videos ORDER BY id DESC");
+	                        $fetchVideos = mysqli_query($con, "SELECT * FROM videos where status ='1' ORDER BY id DESC");
                             while($row = mysqli_fetch_assoc($fetchVideos)){
-                              $location = "admin/".$row['location'];
-                              $caption = $row['caption'];
+                                $id = $row['id'];
+                                $name = $row['name'];
+                                $caption = $row['caption'];
+                                $location = $row['location'];
+                                $status = $row['status'];
 	                    ?>
                     <div class="col-md-4">
-                        <?php
-                            echo "<div style='float: left; margin-right: 5px;'>
-                            <video src='".$location."' controls width='320px' height='320px' ></video>     
+                            <div style='float: left; margin-right: 5px;'>
+                            <video src='admin/videos/<?php echo md5($row['id']) ?>.<?php echo $row['location'] ?>' controls width='320px' height='320px' ></video>     
                             <br>
-                            <span>".$caption."</span>
-                         </div>";
-                            ?>
+                            <span><?php echo $caption; ?></span>
+                         </div>
                     </div>
                     <?php } ?>
                 </div>
@@ -132,7 +134,7 @@ $page='media';
 
         <!-- Footer start-->
 
-        <?php include ("includes/footer.html")?>
+        <?php include ("includes/footer.php")?>
 
         <!-- Footer end-->
 

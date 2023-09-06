@@ -63,7 +63,7 @@ $page="about";
         </div>
 
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner1.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/aboutheader.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
@@ -89,21 +89,25 @@ $page="about";
                     <div class="row">
                         <div class="col-lg-6 about-desc">
                             <h2 class="column-title"><span>We provide</span>Quickest Response Time in the Industry </h2>
-                            <p class="bold-text" style="text-align: justify;">Our Mission is to provide our customers
-                                with valued reliable
-                                high quality
-                                solutions for
-                                global engineering problems, always ensuring that <a>INTEGRITY</a>, <a>SAFETY</a>
-                                and
-                                <a>SUSTAINABILITY</a>
-                                are of the heart of everything we do.</a>
-                            </p>
-                            <a href="services.php" class="top-right-btn btn btn-primary">Services</a>
-                            <a href="projects" class="top-right-btn btn btn-secondary">Our Projects</a>
+                            <p class="bold-text" style="text-align: justify;">We provide <a>mechanical engineering</a>, <a>construction</a>, 
+                            <a>agricultural services</a> and 
+                            <a>general supply</a> for all types of customers. With comprehensive skills and knowledge, we are your one-stop to meet your 
+                            demands with our best services.
+                             We utilize the latest methodologies and tools to ensure safety and quality come first.</p>
+                             <h2 class="column-title">Our Vision Statement</h2>
+                             <p class="bold-text" style="text-align: justify;">To have the quickest response time in the industry by dedicated to not only achieving, 
+                                but exceeding client expectations in a diversified, multinational customer a
+                                nd supplier base with total collaboration with marketplace.</p>
+                                <h2 class="column-title">Our Mission</h2>
+                             <p class="bold-text" style="text-align: justify;">To provide our customers with valued reliable high quality solutions for global
+engineering problems, always ensuring that integrity, safety and sustainability are of the heart of
+everything we do.</p>
+                            <a href="services" class="top-right-btn btn btn-primary">Services</a>
+                            <a href="projects" class="top-right-btn btn btn-secondary">Products</a>
                         </div>
                         <!-- Col end-->
                         <div class="col-lg-6 text-md-center mrt-40">
-                            <img class="img-fluid" src="images/pages/W004.jpeg" alt="">
+                            <img class="img-fluid" src="images/vision.jpg" alt="">
                         </div>
                         <!-- Col end-->
                     </div>
@@ -118,7 +122,7 @@ $page="about";
             <div class="container">
                 <div class="row text-center">
                     <div class="col-md-12">
-                        <h2 class="section-title"><span>Don't Miss a Thing</span>Our Objectives</h2>
+                        <h2 class="section-title"><span>We Focus On</span>Our Objectives</h2>
                     </div>
                 </div>
                 <!-- Title row end -->

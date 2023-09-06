@@ -1,7 +1,7 @@
 <?php
 include ("includes/config.php");
 $page='service';
-
+$id = $_GET['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,15 +58,15 @@ $page='service';
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner4.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/servicesbanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
                             <h1 class="banner-title">Service</h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.php">Home</a></li>
-                                <li><a href="service.php">Services</a></li>
+                                <li><a href="index">Home</a></li>
+                                <li><a href="service">Services</a></li>
                             </ol>
                         </div>
                     </div>
@@ -87,18 +87,18 @@ $page='service';
                             <div class="widget no-padding no-border">
                                 <ul class="service-menu">
                                     <?php
-	                                    $sql=mysqli_query($con,"SELECT * FROM services limit 6");
+	                                    $sql=mysqli_query($con,"SELECT * FROM services where status='1' and id !='$id' limit 6");
 	                                    while($row=mysqli_fetch_array($sql)){
 	                                 ?>
                                     <li><a
-                                            href="service-single.php?id=<?php echo $row["id"]?>"><?php echo $row["name"]?></a>
+                                            href="service-single?id=<?php echo $row["id"]?>"><?php echo $row["name"]?></a>
                                     </li>
                                     <?php } ?>
                                 </ul>
                             </div>
                             <div class="widget no-padding testimonial-static">
                                 <?php
-	                                    $sql=mysqli_query($con,"SELECT * FROM testimonials ORDER BY RAND() limit 1");
+	                                    $sql=mysqli_query($con,"SELECT * FROM testimonials where status ='1' ORDER BY RAND() limit 1");
 	                                    while($row=mysqli_fetch_array($sql)){
 	                                 ?>
                                 <div class="quote-item quote-classic"><span
@@ -126,10 +126,16 @@ $page='service';
                         </div>
                     </div>
                     <!-- Col end -->
+                    <?php 
+
+                        $sql=mysqli_query($con,"SELECT * FROM services where id='$id'");
+                        $row=mysqli_fetch_array($sql);
+                        $data = $row;
+                    ?>
                     <div class="col-lg-8">
                         <div class="single-service-img">
                             <img src="
-                                data:image/jpg;charset=utf8;base64,<?php echo base64_encode($data["image"]); ?>"
+                            images/services/<?php echo md5($data['id']) ?>.<?php echo $data['image'] ?>"
                                 style="height: 470px; width: 690px;" />
                         </div>
                         <div class="service-content">
@@ -151,7 +157,7 @@ $page='service';
                                         </p>
                                     </div>
                                     <div class="col-lg-4 text-right">
-                                        <a class="btn btn-box" href="">Contact Us</a>
+                                        <a class="btn btn-box" href="contact">Contact Us</a>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +169,7 @@ $page='service';
 
         <!-- Footer start-->
 
-        <?php include ("includes/footer.html")?>
+        <?php include ("includes/footer.php")?>
 
         <!-- Footer end-->
 

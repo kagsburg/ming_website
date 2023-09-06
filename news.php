@@ -63,15 +63,15 @@ $page='media';
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner3.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/news.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
                             <h1 class="banner-title">News</h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.php">Home</a></li>
-                                <li><a href="#">News</a></li>
+                                <li><a href="index">Home</a></li>
+                                <li><a href="news">News</a></li>
                             </ol>
                         </div>
                     </div>
@@ -87,37 +87,37 @@ $page='media';
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8">
+                        <div class="row">
                         <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM news order by id desc limit 3");
+	                        $sql=mysqli_query($con,"SELECT * FROM news where status='1'order by id desc limit 5");
 	                        while($row=mysqli_fetch_array($sql)){
 	                     ?>
-                        <div class="post news-post">
+                        <div class=" col-lg-6 post news-post">
                             <div class="post-media post-image">
                                 <img class="img-fluid"
-                                    src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
-                                    style="height: 360px; width: 550px;" alt="img">
+                                    src="images/news/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
+                                    style="height: 300px; " width="300px" alt="img">
                             </div>
                             <div class="post-body clearfix">
                                 <!-- Post meta left-->
                                 <div class="post-content">
                                     <div class="entry-header">
-                                        <div class="post-meta"><span class="post-cat"><i
+                                        <!-- <div class="post-meta"><span class="post-cat"><i
                                                     class="icon icon-folder"></i><a>
                                                     <?php echo $row["category"]; ?></a></span>
                                             <span class="post-tag"><i class="icon icon-tag"></i>
                                                 <?php echo $row["tag"]; ?></span>
-                                        </div>
+                                        </div> -->
                                         <h2 class="entry-title"><a
-                                                href="news-single.php?id=<?php echo $row["id"]?>"><?php echo $row["title"]; ?></a>
+                                                href="news-single?id=<?php echo $row["id"]?>"><?php echo $row["title"]; ?></a>
                                         </h2>
                                     </div>
                                     <!-- header end-->
                                     <div class="entry-content">
-                                        <p><?php echo $row["summary"]; ?>...
-                                        </p>
+                                        
                                     </div>
                                     <div class="post-footer "><a class="btn btn-primary"
-                                            href="news-single.php?id=<?php echo $row["id"]?>">Read
+                                            href="news-single?id=<?php echo $row["id"]?>">Read
                                             More ...</a></div>
                                 </div>
                                 <!-- Post content right-->
@@ -125,35 +125,39 @@ $page='media';
                             <!-- post-body end-->
                         </div>
                         <?php } ?>
+                        </div>
 
                         <!-- 1st post end-->
                     </div>
                     <!-- Content Col end-->
                     <div class="col-lg-4">
                         <div class="sidebar sidebar-right">
-                            <div class="widget widget-search">
+                            <!-- <div class="widget widget-search">
                                 <div class="input-group" id="search">
                                     <input class="form-control" placeholder="Search" type="search"><span
                                         class="input-group-btn"><i class="fa fa-search"></i></span>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="widget recent-posts">
                                 <h3 class="widget-title">Popular Posts</h3>
                                 <ul class="unstyled clearfix">
                                     <?php
-	                                    $sql=mysqli_query($con,"SELECT * FROM news");
+	                                    $sql=mysqli_query($con,"SELECT * FROM news where status='1'order by id asc limit 5");
 	                                    while($row=mysqli_fetch_array($sql)){
+                                            $getauthor = mysqli_query($con,"SELECT * FROM users where user_id='".$row['admin_id']."'");
+                                            $author = mysqli_fetch_array($getauthor);
+
 	                                 ?>
                                     <li class="media">
                                         <div class="media-left media-middle">
                                             <img alt="img"
-                                                src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>">
+                                                src="images/news/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>">
                                         </div>
                                         <div class="media-body media-middle"><span class="post-date"><i
                                                     class="icon icon-calendar-full"></i><a><?php echo $row["date_added"]?></a></span>
                                             <h4 class="entry-title"><a
-                                                    href="news-single.php?id=<?php echo $row["id"]?>"><?php echo $row["title"]?></a>
-                                                <small>By <?php echo $row["author"]?></small>
+                                                    href="news-single?id=<?php echo $row["id"]?>"><?php echo $row["title"]?></a>
+                                                <small>By <?php echo $author["fullnames"]?></small>
                                             </h4>
                                         </div>
                                         <div class="clearfix"></div>

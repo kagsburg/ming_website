@@ -24,12 +24,12 @@
                     <ul class="list-dash">
                         <li><a href="about">About Us</a></li>
                         <li><a href="service">Our Services</a></li>
-                        <li><a href="portfolio.php">Projects</a></li>
-                        <li><a href="gallery.php">Gallery</a></li>
-                        <li><a href="team.php">Our Team</a></li>
-                        <li><a href="faq.php">FAQs</a></li>
-                        <li><a href="newsl">News</a></li>
-                        <li><a href="contact.php">Contact Us</a></li>
+                        <li><a href="portfolio">Projects</a></li>
+                        <li><a href="gallery">Gallery</a></li>
+                        <li><a href="team">Our Team</a></li>
+                        <li><a href="faq">FAQs</a></li>
+                        <li><a href="news">News</a></li>
+                        <li><a href="contact">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-12W footer-widget">
@@ -71,8 +71,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-12">
-                    <div class="copyright-info"><span>Avoid costly rework and stay on schedule with <a
-                                href="">Minagrico</a></span></div>
+                    <div class="copyright-info"><span>Copyright <?php echo date('Y');?> Minagrico Engineering. Developed & Powered By <a
+                                href="">Ufanisi Africa</a></span></div>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="footer-social text-right">
@@ -80,7 +80,7 @@
                             <li><a href="https://facebook.com"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://twitter.com"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="https://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="https://github.com"><i class="fa fa-github"></i></a></li>
+                            <!-- <li><a href="https://github.com"><i class="fa fa-github"></i></a></li> -->
                             <li><a href="https://instagram.com"><i class="fa fa-instagram"></i></a></li>
                         </ul>
                     </div>

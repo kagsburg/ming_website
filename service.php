@@ -1,6 +1,7 @@
 <?php
 include ("includes/config.php");
 $page='service';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,15 +64,15 @@ $page='service';
         </div>
 
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner5.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/servicesbanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
                             <h1 class="banner-title">Our Services</h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.php">Home</a></li>
-                                <li><a href="service.php">Services</a></li>
+                                <li><a href="index">Home</a></li>
+                                <li><a href="service">Services</a></li>
                             </ol>
                         </div>
                     </div>
@@ -95,19 +96,19 @@ $page='service';
                     <!-- Title row end-->
                     <div class="row">
                         <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM services limit 3");
+	                        $sql=mysqli_query($con,"SELECT * FROM services where status = '1'  order by id desc limit 10");
 	                        while($row=mysqli_fetch_array($sql)){
 	                    ?>
                         <div class="col-lg-4 col-md-12">
                             <div class="ts-service-box">
                                 <div class="ts-service-image-wrapper">
                                     <img class="img-fluid"
-                                        src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
+                                        src="images/services/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
                                         style="height: 300px; width: 100%;" alt="">
                                 </div>
                                 <div class="ts-service-content text-center">
                                     <h3 class="service-title"><?php echo $row["name"]; ?></h3>
-                                    <p><a class="link-more" href="service-single.php?id=<?php echo $row["id"]?>">Read
+                                    <p><a class="link-more" href="service-single?id=<?php echo $row["id"]?>">Read
                                             More<i class="icon icon-right-arrow2"></i></a></p>
                                 </div>
                             </div>

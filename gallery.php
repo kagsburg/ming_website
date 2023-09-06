@@ -70,7 +70,7 @@ $page='media';
                         <div class="banner-heading">
                             <h1 class="banner-title">Gallery</h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.php">Home</a></li>
+                                <li><a href="index">Home</a></li>
                                 <li><a href="#">Gallery</a></li>
                             </ol>
                         </div>
@@ -92,13 +92,13 @@ $page='media';
                 </div>
                 <div class="row">
                     <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM gallery");
+	                        $sql=mysqli_query($con,"SELECT * FROM gallery where status='1' order by id desc");
 	                        while($row=mysqli_fetch_array($sql)){
 	                    ?>
                     <div class="col-lg-3 col-md-6">
                         <div class="gallery-img">
                             <img class="img-fluid"
-                                src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
+                                src="images/gallery/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
                                 alt="">
                         </div>
                     </div>

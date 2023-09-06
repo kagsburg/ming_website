@@ -1,7 +1,14 @@
 <?php
 include ("includes/config.php");
 $page='media';
+$id=$_GET['id'];
 
+$sql=mysqli_query($con,"SELECT * FROM news WHERE id='$id'");
+$row=mysqli_fetch_array($sql);
+$data = $row;
+$getauthor = mysqli_query($con,"SELECT * FROM users where user_id='".$row['admin_id']."'");
+$author = mysqli_fetch_array($getauthor);
+$data['author'] = $author['fullnames'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,15 +69,15 @@ $page='media';
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner2.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/news.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
                             <h1 class="banner-title"><?php echo $data['title']; ?></h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.php">Home</a></li>
-                                <li><a href="news.php">News</a></li>
+                                <li><a href="index">Home</a></li>
+                                <li><a href="news">News</a></li>
                             </ol>
                         </div>
                     </div>
@@ -90,17 +97,17 @@ $page='media';
                         <div class="post-content">
                             <div class="post-media post-image ">
                                 <img class="img-fluid" src="
-                                data:image/jpg;charset=utf8;base64,<?php echo base64_encode($data["image"]); ?>"
+                                images/news/<?php echo md5($data['id']) ?>.<?php echo $data['image'] ?>"
                                     class="img-responsive" alt="">
                             </div>
 
                             <div class="post-body">
                                 <div class="entry-header">
-                                    <div class="post-meta"><span class="post-cat"><i class="icon icon-folder"></i><a>
+                                    <!-- <div class="post-meta"><span class="post-cat"><i class="icon icon-folder"></i><a>
                                                 <?php echo $data["category"]; ?></a></span>
                                         <span class="post-tag"><i class="icon icon-tag"></i><a>
                                                 <?php echo $data["tag"]; ?></a></span>
-                                    </div>
+                                    </div> -->
                                     <h2 class="entry-title"><a>
                                             <?php echo $data["title"]; ?></a></h2>
                                 </div>
@@ -115,9 +122,11 @@ $page='media';
                                 <div class="tags-area clearfix">
                                     <div class="post-tags pull-left">
                                         <a><i class="fa fa-user"></i> Written
-                                            by <?php echo $data["author"]; ?></a>
+                                            by <?php 
+                                            
+                                            echo $data["author"]; ?></a>
                                     </div>
-                                    <div class="share-items pull-right">
+                                    <!-- <div class="share-items pull-right">
                                         <ul class="post-social-icons unstyled">
                                             <li class="social-icons-head">Share:</li>
                                             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -125,7 +134,7 @@ $page='media';
                                             <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                                             <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                             </div><!-- post-body end -->
@@ -155,13 +164,16 @@ $page='media';
                                 <h3 class="widget-title">Popular Posts</h3>
                                 <ul class="unstyled clearfix">
                                     <?php
-	                                    $sql=mysqli_query($con,"SELECT * FROM news");
+	                                    $sql=mysqli_query($con,"SELECT * FROM news where status ='1' and id !='$id' ORDER BY id DESC LIMIT 5");
 	                                    while($row=mysqli_fetch_array($sql)){
+                                            $getauthor = mysqli_query($con,"SELECT * FROM users where user_id='".$row['admin_id']."'");
+                                            $author = mysqli_fetch_array($getauthor);
+                                            $row['author'] = $author['fullnames'];
 	                                 ?>
                                     <li class="media">
                                         <div class="media-left media-middle">
                                             <img alt="img"
-                                                src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>">
+                                                src="images/news/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>">
                                         </div>
                                         <div class="media-body media-middle"><span class="post-date"><i
                                                     class="icon icon-calendar-full"></i><a><?php echo $row["date_added"]?></a></span>

@@ -97,9 +97,10 @@
                                 </div>';
                             }
                             }else{
+                                $date = date('Y-m-d');
                                 
                                                 // Insert image content into database 
-                                                $insert = $db->query("INSERT INTO `news`(`title`,`details`,`image`,`status`) VALUES ('".$title."','".$details."','".$image_ext."','".$status."')"); 
+                                                $insert = $db->query("INSERT INTO `news`(`title`,`details`,`image`,`status`,`date_added`,`admin_id`) VALUES ('".$title."','".$details."','".$image_ext."','".$status."','$date','".$_SESSION['user']."')"); 
                                                 // get last created Id 
                                                 $last_id = $db->insert_id;
                                                 $image_file1=md5($last_id).'.'.$image_ext;

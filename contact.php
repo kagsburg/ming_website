@@ -64,7 +64,7 @@ $page='contact';
         </div>
 
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/banner/banner3.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/contactbanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">

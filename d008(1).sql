@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 05, 2023 at 08:57 PM
+-- Generation Time: Sep 06, 2023 at 10:20 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 8.0.11
 
@@ -36,6 +36,13 @@ CREATE TABLE `contact` (
   `status` int(11) NOT NULL,
   `contacted_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `contact`
+--
+
+INSERT INTO `contact` (`id`, `name`, `website`, `email`, `message`, `status`, `contacted_at`) VALUES
+(1, 'Kahuma Andrew', 'Want some work done', 'timothykaganzi@gmail.com', 'I would like to know more', 0, '2023-09-06 22:18:40');
 
 -- --------------------------------------------------------
 
@@ -86,7 +93,11 @@ INSERT INTO `gallery` (`id`, `project_id`, `caption`, `description`, `image`, `s
 (2, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00'),
 (3, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00'),
 (4, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00'),
-(5, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00');
+(5, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00'),
+(6, 1, '', '<p>done and dusted</p>', 'png', 1, '2023-09-06 21:57:16', '0000-00-00'),
+(7, 1, '', '<p>done and dusted</p>', 'jpg', 1, '2023-09-06 21:57:16', '0000-00-00'),
+(8, 1, '', '<p>done and dusted</p>', 'jpg', 1, '2023-09-06 21:57:16', '0000-00-00'),
+(9, 1, '', '<p>done and dusted</p>', 'jpg', 1, '2023-09-06 21:57:16', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -100,6 +111,7 @@ CREATE TABLE `news` (
   `details` text NOT NULL,
   `image` varchar(255) NOT NULL,
   `status` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
   `date_added` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -107,10 +119,10 @@ CREATE TABLE `news` (
 -- Dumping data for table `news`
 --
 
-INSERT INTO `news` (`id`, `title`, `details`, `image`, `status`, `date_added`) VALUES
-(1, 'New Updates', '<p>At StellarBuild, we take pride in our ability to handle projects of various scales and complexities. Whether you&#39;re looking to build a new residential property, renovate your existing space, or undertake a commercial construction endeavor, we have the capabilities to exceed your expectations. Our diverse portfolio showcases our versatility in constructing residential homes, commercial complexes, industrial facilities, educational institutions, and more.</p>', 'png', 1, NULL),
-(2, 'New Article 2', '<p>anlsdkbasld ksadkljsbdjsbdjbasdj</p>', 'jpg', 0, NULL),
-(3, 'New Article 3', '<p>ma kz czc zclj adcad mnaadnc lajclac a,nc ac,an can canc anm,c an,c sn&nbsp;</p>', 'jpg', 1, NULL);
+INSERT INTO `news` (`id`, `title`, `details`, `image`, `status`, `admin_id`, `date_added`) VALUES
+(1, 'New Updates', '<p>At StellarBuild, we take pride in our ability to handle projects of various scales and complexities. Whether you&#39;re looking to build a new residential property, renovate your existing space, or undertake a commercial construction endeavor, we have the capabilities to exceed your expectations. Our diverse portfolio showcases our versatility in constructing residential homes, commercial complexes, industrial facilities, educational institutions, and more.</p>', 'png', 1, 1, '2023-09-05'),
+(2, 'New Article 2', '<p>anlsdkbasld ksadkljsbdjsbdjbasdj</p>', 'jpg', 0, 1, NULL),
+(3, 'New Article 3', '<p>ma kz czc zclj adcad mnaadnc lajclac a,nc ac,an can canc anm,c an,c sn&nbsp;</p>', 'jpg', 1, 1, '2023-09-01');
 
 -- --------------------------------------------------------
 
@@ -202,7 +214,7 @@ CREATE TABLE `slider_images` (
   `title` varchar(100) NOT NULL,
   `first_button` varchar(20) NOT NULL,
   `first_button_link` varchar(40) NOT NULL,
-  `second_button` varchar(20) NOT NULL,
+  `subtitle` varchar(255) NOT NULL,
   `second_button_link` varchar(40) NOT NULL,
   `image` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -214,9 +226,10 @@ CREATE TABLE `slider_images` (
 -- Dumping data for table `slider_images`
 --
 
-INSERT INTO `slider_images` (`id`, `title`, `first_button`, `first_button_link`, `second_button`, `second_button_link`, `image`, `created_at`, `updated_at`, `status`) VALUES
-(1, 'We Have the Solutions You Need', 'View More', './about', 'View Projects', './projects', 'jpg', '2023-06-06 20:31:38', NULL, 1),
-(2, 'You have Needs', 'View More', './about', 'View Projects', './projects', 'jpg', '2023-06-06 20:33:04', NULL, 1);
+INSERT INTO `slider_images` (`id`, `title`, `first_button`, `first_button_link`, `subtitle`, `second_button_link`, `image`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'We Have the Solutions You Need', 'View More', './about', 'View Projects and more', './projects', 'jpg', '2023-06-06 20:31:38', NULL, 1),
+(2, 'You have Needs', 'View More', './about', 'View Projects', './projects', 'jpg', '2023-06-06 20:33:04', NULL, 1),
+(3, 'We Have the Solutions', 'View More', './services', 'More Solutions', '', 'png', '2023-09-06 12:08:08', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -230,7 +243,7 @@ CREATE TABLE `staff` (
   `title` varchar(20) NOT NULL,
   `role` varchar(20) NOT NULL,
   `about` text NOT NULL,
-  `image` longblob NOT NULL,
+  `image` varchar(120) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT NULL,
   `date_deleted` datetime DEFAULT NULL,
@@ -242,8 +255,8 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `name`, `title`, `role`, `about`, `image`, `date_created`, `date_updated`, `date_deleted`, `status`) VALUES
-(1, 'Kahuma Andrew', 'Board of Advisors', 'Project Manager', 'Very hard working', 0x6a7067, '2023-06-06 21:20:55', NULL, NULL, 1),
-(2, 'Muggaga', 'Staff', 'Project Manager', 'Very hard working', 0x706e67, '2023-06-06 21:35:22', NULL, NULL, 1);
+(1, 'Kahuma Andrew', 'Board of Advisors', 'Project Manager', 'Very hard working', 'jpg', '2023-06-06 21:20:55', NULL, NULL, 1),
+(2, 'Muggaga', 'Staff', 'Project Manager', 'Very hard working', 'png', '2023-06-06 21:35:22', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -442,7 +455,7 @@ ALTER TABLE `youtube_links`
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `faqs`
@@ -454,7 +467,7 @@ ALTER TABLE `faqs`
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `news`
@@ -484,7 +497,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `slider_images`
 --
 ALTER TABLE `slider_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `staff`
