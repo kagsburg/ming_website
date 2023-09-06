@@ -60,8 +60,14 @@
                 </ul>
               </li>
               <!-- li end-->
-              <li class="nav-item dropdown  <?php if($page == 'service'){echo 'active';} ?>">
-                <a href="<?php echo BASE_URL;?>/service">Our Services</a>
+              <li class="nav-item dropdown 
+              <?php if($page=='service'|| $page=='products' ){echo 'active';} ?>
+              "><a class="nav-link" href="#" data-toggle="dropdown">what we do<i
+                    class="fa fa-angle-down"></i></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="<?php echo BASE_URL;?>/service">Services</a></li>
+                  <li><a href="<?php echo BASE_URL;?>/products">Products</a></li>
+                </ul>
               </li>
               <li class="nav-item dropdown  <?php if($page == 'port'){echo 'active';} ?>">
                 <a href="<?php echo BASE_URL;?>/portfolio">Our Portfolio</a>

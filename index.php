@@ -70,47 +70,22 @@ $page="home";
             <!-- Indicators end-->
             <!-- Carousel inner-->
             <div class="carousel-inner">
-                <div class="carousel-item active" style="background-image:url(images/slider/bg1.jpg);">
-                    <div class="container">
-                        <div class="slider-content text-left">
-                            <div class="col-md-12">
-                                <h2 class="slide-title title-light">You have needs</h2>
-                                <h3 class="slide-sub-title">We Have the Solutions</h3>
-                                <p class="slider-description lead">We will deal with your failure that determines <br />
-                                    how you achieve success.</p>
-                                <p><a class="slider btn btn-primary" href="#">Know More</a><a
-                                        class="slider btn btn-border" href="#">View Services</a></p>
-                            </div>
-                            <!-- Col end-->
-                        </div>
-                        <!-- Slider content end-->
-                    </div>
-                    <!-- Container end-->
-                </div>
-                <!-- Carousel item 1 end-->
-                <div class="carousel-item" style="background-image:url(images/slider/bg2.jpg);">
-                    <div class="container">
-                        <div class="slider-content text-center">
-                            <div class="col-md-12">
-                                <h2 class="slide-title title-light">We deal with logistics</h2>
-                                <h3 class="slide-sub-title">You focus on your Business</h3>
-                                <p class="slider-description lead">We will deal with your failure that determines </p>
-                                <p><a class="slider btn btn-primary" href="#">Our Services</a></p>
-                            </div>
-                            <!-- Col end-->
-                        </div>
-                        <!-- Slider content end-->
-                    </div>
-                    <!-- Container end-->
-                </div>
+                
+                <?php
+	                                        $sql=mysqli_query($con,"SELECT * FROM slider_images where status='1'");
+                                            if (mysqli_num_rows($sql) > 0) {
+                                                $i=0;
+                                                while($row=mysqli_fetch_array($sql)){
+                                                    $i++;
+                                                        ?>
                 <!-- Carousel item 2 end-->
-                <div class="carousel-item" style="background-image:url(images/slider/bg3.jpg);">
+                <div class="carousel-item <?php if ($i == 1) echo "active"  ?>" style="background-image:url(images/slider/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>);">
                     <div class="container">
                         <div class="slider-content text-right">
                             <div class="col-md-12">
-                                <h2 class="slide-title title-light">17 years of experience</h2>
-                                <h3 class="slide-sub-title">Strong Distribution Network</h3>
-                                <p><a class="slider btn btn-primary" href="#">View Services</a></p>
+                                <h2 class="slide-title title-light"><?php echo $row["subtitle"];?></h2>
+                                <h3 class="slide-sub-title"><?php echo $row["title"];  ?></h3>
+                                <p><a class="slider btn btn-primary" href="<?php echo BASE_URL;?>/<?php echo $row["first_button_link"];  ?>"><?php echo $row["first_button"];  ?></a></p>
                             </div>
                             <!-- Col end-->
                         </div>
@@ -118,6 +93,10 @@ $page="home";
                     </div>
                     <!-- Container end-->
                 </div>
+                <?php
+                                                }
+                                            }
+                                            ?>
                 <!-- Carousel item 3 end-->
             </div>
             <!-- Carousel inner end-->
@@ -146,8 +125,8 @@ $page="home";
                                         <img src="images/icon/why-1.png" alt="" />
                                     </div>
                                     <div class="ts-service-box-info">
-                                        <h3 class="service-box-title">A Performance of 99%</h3>
-                                        <p>Wonderful serenity has taken possession of my entire soul, </p>
+                                        <h3 class="service-box-title">Quality Assurance</h3>
+                                        <p>We provide quality products and services.</p>
                                     </div>
                                 </div><!-- Service 1 end -->
                                 <div class="gap-15"></div>
@@ -156,8 +135,8 @@ $page="home";
                                         <img src="images/icon/why-2.png " alt="" />
                                     </div>
                                     <div class="ts-service-box-info">
-                                        <h3 class="service-box-title">Your goods are in safe hands</h3>
-                                        <p>Wonderful serenity has taken possession of my entire soul, </p>
+                                        <h3 class="service-box-title">Safety </h3>
+                                        <p>We maintain safe and healthy working environment. </p>
                                     </div>
                                 </div><!-- Service 2 end -->
                                 <div class="gap-15"></div>
@@ -166,14 +145,14 @@ $page="home";
                                         <img src="images/icon/why-4.png " alt="" />
                                     </div>
                                     <div class="ts-service-box-info">
-                                        <h3 class="service-box-title">Self-Perform </h3>
-                                        <p>Wonderful serenity has taken possession of my entire soul, </p>
+                                        <h3 class="service-box-title">Accountability </h3>
+                                        <p>We conduct business with integrity and fairness </p>
                                     </div>
                                 </div><!-- Service 3 end -->
                             </div>
                         </div><!-- Col end -->
                         <div class="col-lg-4 col-md-12">
-                            <span class="service-img"><img class="img-fluid" src="images/services/service_center.png"
+                            <span class="service-img"><img class="img-fluid" src="images/icon/why-9.png"
                                     alt="" /></span>
                         </div>
 
@@ -181,31 +160,31 @@ $page="home";
                             <div class="ts-service-wrapper ml-lg-auto">
                                 <div class="ts-service-box">
                                     <div class="ts-service-box-img ">
-                                        <img src="images/icon/why-3.png" alt="" />
+                                        <img src="images/icon/service-3.png" alt="" />
                                     </div>
                                     <div class="ts-service-box-info">
-                                        <h3 class="service-box-title">View Real-time ride Data</h3>
-                                        <p>Wonderful serenity has taken possession of my entire soul,</p>
+                                        <h3 class="service-box-title">Fair Price</h3>
+                                        <p>Our price is affordable and cost-effective</p>
                                     </div>
                                 </div><!-- Service 4 end -->
                                 <div class="gap-15"></div>
                                 <div class="ts-service-box">
                                     <div class="ts-service-box-img">
-                                        <img src="images/icon/why-5.png" alt="" />
+                                        <img src="images/icon/why-8.png" alt="" style="width: 95px;"/>
                                     </div>
                                     <div class="ts-service-box-info">
-                                        <h3 class="service-box-title">Over 7,500+ Pallet Locations</h3>
-                                        <p>Wonderful serenity has taken possession of my entire soul,</p>
+                                        <h3 class="service-box-title">Solution-Oriented</h3>
+                                        <p>We full focus on our customer needs.</p>
                                     </div>
                                 </div><!-- Service 5 end -->
                                 <div class="gap-15"></div>
                                 <div class="ts-service-box">
                                     <div class="ts-service-box-img">
-                                        <img src="images/icon/why-6.png" alt="" />
+                                        <img src="images/icon/why-7.png" alt="" style="width: 95px;"/>
                                     </div>
                                     <div class="ts-service-box-info">
-                                        <h3 class="service-box-title">Health & Safety Management</h3>
-                                        <p>Wonderful serenity has taken possession of my entire soul, </p>
+                                        <h3 class="service-box-title">Support</h3>
+                                        <p>We offer timely support to all our customers </p>
                                     </div>
                                 </div><!-- Service 6 end -->
                             </div>
@@ -228,19 +207,19 @@ $page="home";
                 <!-- Title row end-->
                 <div class="row ts-service-row-box">
                     <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM services limit 3");
+	                        $sql=mysqli_query($con,"SELECT * FROM services where status = '1' order by id desc limit 3");
 	                        while($row=mysqli_fetch_array($sql)){
 	                    ?>
                     <div class="col-lg-4 col-md-12">
                         <div class="ts-service-box">
                             <div class="ts-service-image-wrapper">
                                 <img class="img-fluid"
-                                    src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
+                                    src="images/services/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
                                     style="height: 300px; width: 100%;" alt="">
                             </div>
                             <div class="ts-service-content">
                                 <h3 class="service-title"><?php echo $row["name"]; ?></h3>
-                                <p><a class="link-more" href="service-single.php?id=<?php echo $row["id"]?>">Read More<i
+                                <p><a class="link-more" href="service-single?id=<?php echo $row["id"]?>">Read More<i
                                             class="icon icon-right-arrow2"></i></a></p>
                             </div>
                         </div>
@@ -334,10 +313,12 @@ $page="home";
         <section id="ts-facts-area" class="ts-facts-area-bg bg-overlay">
             <div class="container">
                 <div class="row ">
-                    <div class="col-lg-5 col-md-12 column-left-title">
-                        <h2 class="column-title">17 Years Experience in Logistics Field.</h2>
+                    <div class="col-lg-12 col-md-12 column-left-title">
+                        <h2 class="column-title">To provide our customers with valued reliable high quality solutions for global
+engineering problems, always ensuring that integrity, safety and sustainability are of the heart of
+everything we do.</h2>
                     </div>
-                    <div class="col-lg-7 col-md-12">
+                    <!-- <div class="col-lg-7 col-md-12">
                         <div class="container">
                             <div class="row text-center">
                                 <div class="col-lg-4 col-md-4">
@@ -348,9 +329,7 @@ $page="home";
                                             <p class="facts-desc">Office Worldwide</p>
                                         </div>
                                     </div>
-                                    <!-- Facts 1 end-->
                                 </div>
-                                <!-- Col 1 end-->
                                 <div class="col-lg-4 col-md-4">
                                     <div class="ts-facts-bg">
                                         <img src="images/icon/fact2.png" alt="" />
@@ -359,9 +338,7 @@ $page="home";
                                             <p class="facts-desc">KM Per Year</p>
                                         </div>
                                     </div>
-                                    <!-- Facts 2 end-->
                                 </div>
-                                <!-- Col 2 end-->
                                 <div class="col-lg-4 col-md-4">
                                     <div class="ts-facts-bg">
                                         <img src="images/icon/fact3.png" alt="" />
@@ -370,12 +347,10 @@ $page="home";
                                             <p class="facts-desc">Tons of Goods</p>
                                         </div>
                                     </div>
-                                    <!-- Facts 3 end-->
                                 </div>
-                                <!-- Col 3 end-->
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- Row end-->
             </div>
@@ -393,14 +368,17 @@ $page="home";
                 <div class="row ">
                     <div class="col-lg-6 ">
                         <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM news order by id desc limit 1");
-	                        while($row=mysqli_fetch_array($sql)){
+                        $selected='';
+	                        $getnews=mysqli_query($con,"SELECT * FROM news where status='1' order by id desc limit 1");
+                            if (mysqli_num_rows($getnews) > 0) {
+	                        while($row=mysqli_fetch_array($getnews)){
+                                $selected=$row['id'];
 	                    ?>
                         <div class="latest-post post-large">
                             <div class="latest-post-media">
                                 <a class="latest-post-img" href="news-single.html">
                                     <img class="img-fluid"
-                                        src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
+                                        src="images/news/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
                                         alt="img">
                                 </a>
 
@@ -418,14 +396,14 @@ $page="home";
                             <!-- Post media end-->
                         </div>
                         <!-- Latest post end-->
-                        <?php } ?>
+                        <?php }} ?>
 
                     </div>
                     <!-- Col big news end-->
                     <div class="col-lg-6 ">
                         <div class="row">
                             <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM news order by id asc limit 2");
+	                        $sql=mysqli_query($con,"SELECT * FROM news where status='1' and id!='$selected' order by id asc limit 5");
 	                        while($row=mysqli_fetch_array($sql)){
 	                    ?>
                             <div class="col-lg-6 col-md-6">
@@ -435,7 +413,7 @@ $page="home";
                                                 href="news-single.php?id=<?php echo $row["id"]?>"><?php echo $row["title"]; ?></a>
                                         </h4><span class="post-item-date"><?php echo $row["date_added"]; ?></span>
                                         <div class="post-text">
-                                            <p><?php echo $row["summary"]; ?>...
+                                            <p><?php echo $row["title"]; ?>...
                                             </p>
                                             <div class="text-left"><a class="btn btn-primary"
                                                     href="news-single.php?id=<?php echo $row["id"]?>">Read More</a>
@@ -467,7 +445,7 @@ $page="home";
                             <h2 class="column-title "><span>Delivery & return solutions worldwide</span>Get a Quick
                                 Quote</h2>
                             <div class="quote-img">
-                                <img class="img-fluid" src="images/alltransport.png" alt="img">
+                                <img class="img-fluid" src="images/quote.png" alt="img">
                             </div>
                         </div>
                         <!-- Quote form end-->

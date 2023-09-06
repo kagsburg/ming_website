@@ -6,8 +6,8 @@
                     <div class="footer-logo">
                         <img src="images/footer-logo.png" alt="">
                     </div>
-                    <p>Transline Logistics is the UK's leading freight forwarding, Midst brought winged midst
-                        beast years, be very was. Brought that called creeping</p>
+                    <p>We provide our customers with valued reliable high quality solutions  for global engineering problems, always ensuring that integrity, 
+                        safety and sustainability are of the heart of everything we do.</p>
 
                     <h3 class="widget-title">Subscribe Newsletter!</h3>
                     <form class="newsletter-form" id="newsletter-form" action="#" method="post">
@@ -22,13 +22,13 @@
                 <div class="col-lg-4 col-md-12 footer-widget">
                     <h3 class="widget-title">Quick Links</h3>
                     <ul class="list-dash">
-                        <li><a href="about.php">About Us</a></li>
-                        <li><a href="service.php">Our Services</a></li>
+                        <li><a href="about">About Us</a></li>
+                        <li><a href="service">Our Services</a></li>
                         <li><a href="portfolio.php">Projects</a></li>
                         <li><a href="gallery.php">Gallery</a></li>
                         <li><a href="team.php">Our Team</a></li>
                         <li><a href="faq.php">FAQs</a></li>
-                        <li><a href="news-left-sidebar.html">News</a></li>
+                        <li><a href="newsl">News</a></li>
                         <li><a href="contact.php">Contact Us</a></li>
                     </ul>
                 </div>

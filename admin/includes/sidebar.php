@@ -41,7 +41,7 @@
     ">
         <a class="nav-link" href="portfolio">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Our Portfolio</span>
+            <span>Portfolio</span>
         </a>
     </li>
     <hr class="sidebar-divider">
@@ -54,7 +54,7 @@
     ">
         <a class="nav-link" href="services">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Our Services</span>
+            <span>Services</span>
         </a>
     </li>
     <hr class="sidebar-divider">
@@ -80,7 +80,7 @@
     ">
         <a class="nav-link" href="team">
             <i class="fas  fa-users-cog"></i>
-            <span> Our Team </span>
+            <span> Team </span>
         </a>
     </li>
     <hr class="sidebar-divider">
@@ -93,7 +93,7 @@
     ">
         <a class="nav-link" href="news">
             <i class="fas  fa-newspaper"></i>
-            <span> Our Updates </span>
+            <span> Updates </span>
         </a>
     </li> 
     <hr class="sidebar-divider">
@@ -106,7 +106,7 @@
     ">
         <a class="nav-link" href="gallery">
         <i class="fas fa-images"></i>
-            <span> Our Gallery </span>
+            <span> Gallery </span>
         </a>
     </li> 
     <hr class="sidebar-divider">
@@ -119,7 +119,7 @@
     ">
         <a class="nav-link" href="new_video">
         <i class="fas fa-video"></i>
-            <span> Our Videos </span>
+            <span> Videos </span>
         </a>
     </li> 
     <hr class="sidebar-divider">
@@ -145,7 +145,7 @@
     ">
         <a class="nav-link" href="partners">
         <i class="fas fa-users"></i>
-            <span> Our Partners </span>
+            <span> Partners </span>
         </a>
     </li>
     <hr class="sidebar-divider">
@@ -158,7 +158,7 @@
     ">
         <a class="nav-link" href="faqs">
         <i class="fas fa-question"></i>
-            <span> Our Faqs </span>
+            <span> Faqs </span>
         </a>
     </li>  
 

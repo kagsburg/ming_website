@@ -91,7 +91,7 @@ $page='team';
                 <!-- Title row end-->
                 <div class="row">
                     <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM staff");
+	                        $sql=mysqli_query($con,"SELECT * FROM staff where status='1'");
 	                        while($row=mysqli_fetch_array($sql)){
 	                        ?>
                     <div class="col-lg-3 col-md-6">
@@ -103,7 +103,7 @@ $page='team';
                                     style="width:100%; height: 300px; " /> <?php
                                             }else {
                                             ?> <img class="img-fluid" style="width:200px; height: 250px; "
-                                    src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
+                                    src="images/team/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
                                     alt="staff">
                                 <?php }
                                             ?>

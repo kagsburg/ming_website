@@ -33,8 +33,8 @@ header("location:.");
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-        <meta name="author" content="Coderthemes">
+        <meta name="description" content="A fully featured Minagrico Admin ">
+        <meta name="author" content="">
 
         <!-- App Favicon -->
         <!-- <link rel="icon"   type="image/png"    href="assets/images/fav.png" /> -->

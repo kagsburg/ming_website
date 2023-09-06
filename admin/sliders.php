@@ -73,8 +73,8 @@
                             $title = mysqli_real_escape_string($db,trim($_POST['title']));
                             $first_button = mysqli_real_escape_string($db,trim($_POST['first_button']));
                             $first_button_link =mysqli_real_escape_string($db,trim($_POST['first_button_link'])); 
-                            $second_button =mysqli_real_escape_string($db,trim($_POST['second_button'])); 
-                            $second_button_link =mysqli_real_escape_string($db,trim($_POST['second_button_link']));
+                            $subtitle =mysqli_real_escape_string($db,trim($_POST['subtitle'])); 
+                            $second_button_link = '';//mysqli_real_escape_string($db,trim($_POST['second_button_link']));
                             
                             $image_name=$_FILES['image']['name'];
                             $image_size=$_FILES['image']['size'];
@@ -101,7 +101,7 @@
                             }else{
                                 
                                                 // Insert image content into database 
-                                                $insert = $db->query("INSERT INTO `slider_images` (`title`, `first_button`, `first_button_link`, `second_button`, `second_button_link`, `image`,`status`) VALUES ('".$title."','".$first_button."','".$first_button_link."','".$second_button."','".$second_button_link."','".$image_ext."','".$status."')");
+                                                $insert = $db->query("INSERT INTO `slider_images` (`title`, `first_button`, `first_button_link`, `subtitle`, `second_button_link`, `image`,`status`) VALUES ('".$title."','".$first_button."','".$first_button_link."','".$subtitle."','".$second_button_link."','".$image_ext."','".$status."')");
                                                 // get last created Id 
                                                 $last_id = $db->insert_id;
                                                 $image_file1=md5($last_id).'.'.$image_ext;
@@ -120,8 +120,8 @@
                             $title = mysqli_real_escape_string($db,trim($_POST['title'.$id]));
                             $first_button = mysqli_real_escape_string($db,trim($_POST['first_button'.$id]));
                             $first_button_link =mysqli_real_escape_string($db,trim($_POST['first_button_link'.$id])); 
-                            $second_button =mysqli_real_escape_string($db,trim($_POST['second_button'.$id])); 
-                            $second_button_link =mysqli_real_escape_string($db,trim($_POST['second_button_link'.$id]));
+                            $subtitle =mysqli_real_escape_string($db,trim($_POST['subtitle'.$id])); 
+                            // $second_button_link =mysqli_real_escape_string($db,trim($_POST['second_button_link'.$id]));
 
                             if (isset($_FILES['image'.$id]) && !empty($_FILES['image'.$id]) && $_FILES['image'.$id]['size']!=0){
                                 $image_name=$_FILES['image'.$id]['name'];
@@ -148,7 +148,7 @@
                                         }
                                 }else{
                                     // update with image content 
-                                    $update =$db->query("UPDATE slider_images SET title='$title', first_button='$first_button', first_button_link='$first_button_link', second_button='$second_button', second_button_link='$second_button_link', image='$image_ext' WHERE id=$id")
+                                    $update =$db->query("UPDATE slider_images SET title='$title',subtitle='$subtitle', first_button='$first_button', first_button_link='$first_button_link', image='$image_ext' WHERE id=$id")
                                     or die(mysqli_error($db));
                                     $image_file1=md5($id).'.'.$image_ext;
                                     move_uploaded_file($image_temp,'../images/slider/'.$image_file1);
@@ -162,7 +162,7 @@
 
                             }else{
                                 // update without image content
-                                $update =$db->query("UPDATE slider_images SET title='$title', first_button='$first_button', first_button_link='$first_button_link', second_button='$second_button', second_button_link='$second_button_link' WHERE id=$id")
+                                $update =$db->query("UPDATE slider_images SET title='$title',subtitle='$subtitle',first_button='$first_button', first_button_link='$first_button_link' WHERE id=$id")
                                 or die(mysqli_error($db));
                                 echo '<div class="alert alert-success alert-icon" role="alert">
                                                 <div class="alert-icon-content">
@@ -186,8 +186,9 @@
                                     <thead>
                                         <tr>
                                             <th colspan="2">Slider Title</th>
+                                            <th>Subtitle </th>
                                             <th>First Button </th>
-                                            <th>Second Button</th>
+                                            <!-- <th>Second Button</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -199,17 +200,12 @@
                                                 echo '<tr><td colspan="8">No data available</td></tr>';
                                             } else{
 	                                        while($row=mysqli_fetch_array($sql)){
-                                                // // get service name
-                                                // $sql3=mysqli_query($db,"SELECT * FROM services where id='".$row['service']."'");
-                                                // $row3=mysqli_fetch_array($sql3);
-
-
 	                                    ?>
                                             <tr>
                                                 <td><img class="img-profile rounded-circle" src="../images/slider/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td>
                                                 <td><?php echo $row["title"]; ?></td>
+                                                <td><?php echo $row["subtitle"]; ?></td>
                                                 <td><?php echo $row["first_button"]; ?> <?php echo $row["first_button_link"]; ?></td>
-                                                <td><?php echo $row["second_button"]; ?>  <?php echo $row["second_button_link"]; ?></td>
                                                 <td>
                                                 <a href="javascript.void(0)" data-toggle="modal" data-target="#editPort<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
@@ -247,6 +243,14 @@
                                                         placeholder="Title for the Page" class="form-control">
                                                 </div>
                                             </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-2"><label for="title"
+                                                        class=" form-control-label">SubTitle:</label>
+                                                </div>
+                                                <div class="col-12 col-md-9"><input type="text" id="subtitle" name="subtitle<?php echo $row['id']  ?>" value="<?php echo $row['subtitle']  ?>"
+                                                        placeholder="SubTitle for the Page" class="form-control">
+                                                </div>
+                                            </div>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="first_button"
@@ -267,24 +271,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
-                                                <div class="col col-md-2"><label for="second_button"
-                                                        class=" form-control-label">Second
-                                                        Button Label:</label>
-                                                </div>
-                                                <div class="col-12 col-md-4"><input type="text" id="second_button" value="<?php echo $row['second_button']  ?>"
-                                                        name="second_button<?php echo $row['id']  ?>" placeholder="Title for Second Button"
-                                                        class="form-control">
-                                                </div>
-
-                                                <div class="col col-md-1"><label for="second_button_link"
-                                                        class=" form-control-label">Link:</label>
-                                                </div>
-                                                <div class="col-12 col-md-4"><input type="text" id="second_button_link" value="<?php echo $row['second_button_link']  ?>"
-                                                        name="second_button_link<?php echo $row['id']  ?>" placeholder="Page Link"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
+                                            
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="image"
@@ -341,6 +328,14 @@
                                                         placeholder="Title for the Page" class="form-control">
                                                 </div>
                                             </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-2"><label for="title"
+                                                        class=" form-control-label">SubTitle:</label>
+                                                </div>
+                                                <div class="col-12 col-md-9"><input type="text" id="subtitle" name="subtitle"
+                                                        placeholder="SubTitle for the Page" class="form-control">
+                                                </div>
+                                            </div>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="first_button"
@@ -357,25 +352,6 @@
                                                 </div>
                                                 <div class="col-12 col-md-4"><input type="text" id="first_button_link"
                                                         name="first_button_link" placeholder="Page Link"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="row form-group">
-                                                <div class="col col-md-2"><label for="second_button"
-                                                        class=" form-control-label">Second
-                                                        Button Label:</label>
-                                                </div>
-                                                <div class="col-12 col-md-4"><input type="text" id="second_button"
-                                                        name="second_button" placeholder="Title for Second Button"
-                                                        class="form-control">
-                                                </div>
-
-                                                <div class="col col-md-1"><label for="second_button_link"
-                                                        class=" form-control-label">Link:</label>
-                                                </div>
-                                                <div class="col-12 col-md-4"><input type="text" id="second_button_link"
-                                                        name="second_button_link" placeholder="Page Link"
                                                         class="form-control">
                                                 </div>
                                             </div>
