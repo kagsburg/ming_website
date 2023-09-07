@@ -43,10 +43,10 @@
           <!-- End of Navbar toggler-->
           <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li class="nav-item 
+              <li class="nav-item dropdown
               <?php if($page == 'home'){echo 'active';} ?>
               ">
-                <a class="nav-link" href="<?php echo BASE_URL;?>/." data-toggle="dropdown">Home</a>
+                <a class="nav-link" href="<?php echo BASE_URL;?>/.">Home</a>
               </li>
               <!-- li end-->
               <li class="nav-item dropdown 

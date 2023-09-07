@@ -71,8 +71,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-12">
-                    <div class="copyright-info"><span>Copyright <?php echo date('Y');?> Minagrico Engineering. Developed & Powered By <a
-                                href="">Ufanisi Africa</a></span></div>
+                    <div class="copyright-info"><span>Copyright  &copy <?php echo date('Y');?> Minagrico Engineering. Developed & Powered By <a
+                                href="https://ufanisiafrica.com">Ufanisi Africa</a></span></div>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="footer-social text-right">

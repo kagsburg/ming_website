@@ -99,6 +99,19 @@
     <hr class="sidebar-divider">
     <li class="nav-item 
     <?php
+        if($page == 'products'){
+            echo 'active';
+        }
+    ?>
+    ">
+        <a class="nav-link" href="products">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span> Products </span>
+        </a>
+    </li> 
+    <hr class="sidebar-divider">
+    <li class="nav-item 
+    <?php
         if($page == 'gallery'){
             echo 'active';
         }
