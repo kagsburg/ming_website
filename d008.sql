@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2023 at 10:20 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 8.0.11
+-- Generation Time: Sep 07, 2023 at 04:24 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `category_id` int(11) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contact`
 --
 
@@ -35,7 +49,7 @@ CREATE TABLE `contact` (
   `message` text NOT NULL,
   `status` int(11) NOT NULL,
   `contacted_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contact`
@@ -57,7 +71,7 @@ CREATE TABLE `faqs` (
   `status` int(11) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   `date_updated` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `faqs`
@@ -83,7 +97,7 @@ CREATE TABLE `gallery` (
   `status` int(11) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   `date_updated` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `gallery`
@@ -109,20 +123,22 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL,
   `title` varchar(60) NOT NULL,
   `details` text NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `tags` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
   `status` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL,
   `date_added` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `news`
 --
 
-INSERT INTO `news` (`id`, `title`, `details`, `image`, `status`, `admin_id`, `date_added`) VALUES
-(1, 'New Updates', '<p>At StellarBuild, we take pride in our ability to handle projects of various scales and complexities. Whether you&#39;re looking to build a new residential property, renovate your existing space, or undertake a commercial construction endeavor, we have the capabilities to exceed your expectations. Our diverse portfolio showcases our versatility in constructing residential homes, commercial complexes, industrial facilities, educational institutions, and more.</p>', 'png', 1, 1, '2023-09-05'),
-(2, 'New Article 2', '<p>anlsdkbasld ksadkljsbdjsbdjbasdj</p>', 'jpg', 0, 1, NULL),
-(3, 'New Article 3', '<p>ma kz czc zclj adcad mnaadnc lajclac a,nc ac,an can canc anm,c an,c sn&nbsp;</p>', 'jpg', 1, 1, '2023-09-01');
+INSERT INTO `news` (`id`, `title`, `details`, `category_id`, `tags`, `image`, `status`, `admin_id`, `date_added`) VALUES
+(1, 'New Updates', '<p>At StellarBuild, we take pride in our ability to handle projects of various scales and complexities. Whether you&#39;re looking to build a new residential property, renovate your existing space, or undertake a commercial construction endeavor, we have the capabilities to exceed your expectations. Our diverse portfolio showcases our versatility in constructing residential homes, commercial complexes, industrial facilities, educational institutions, and more.</p>', 0, '', 'png', 1, 1, '2023-09-05'),
+(2, 'New Article 2', '<p>anlsdkbasld ksadkljsbdjsbdjbasdj</p>', 0, '', 'jpg', 0, 1, NULL),
+(3, 'New Article 3', '<p>ma kz czc zclj adcad mnaadnc lajclac a,nc ac,an can canc anm,c an,c sn&nbsp;</p>', 0, '', 'jpg', 1, 1, '2023-09-01');
 
 -- --------------------------------------------------------
 
@@ -138,7 +154,7 @@ CREATE TABLE `partners` (
   `status` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `partners`
@@ -147,6 +163,24 @@ CREATE TABLE `partners` (
 INSERT INTO `partners` (`id`, `company`, `website`, `logo`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Dome', '', 'jpg', 1, '2023-06-07 22:07:26', NULL),
 (2, 'True Desire LTD', '', 'jpg', 1, '2023-06-07 22:34:14', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `pin` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(11) NOT NULL,
+  `dateadded_at` datetime NOT NULL,
+  `status` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -167,7 +201,7 @@ CREATE TABLE `projects` (
   `date_added` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `image` varchar(255) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `projects`
@@ -188,20 +222,21 @@ CREATE TABLE `services` (
   `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `price` int(11) NOT NULL,
+  `pin` int(11) NOT NULL,
   `description` text NOT NULL,
   `image` varchar(255) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `name`, `price`, `description`, `image`, `updated_at`, `status`) VALUES
-(1, 'Customer Care', 2340000, '<p>At StellarBuild, we are a leading construction company committed to transforming your visions into reality. With a proven track record of delivering exceptional projects, we offer a comprehensive range of construction services tailored to meet your specific needs. Whether you&#39;re a homeowner, business owner, or property developer, we have the expertise, resources, and dedication to bring your construction dreams to life.</p>', 'jpg', '2023-06-05 19:01:29', 1),
-(2, 'Welding', 350000, '<p>Our team of highly skilled professionals, including architects, engineers, project managers, and craftsmen, work collaboratively to deliver outstanding results. From the initial design phase to the final touches, we prioritize quality, innovation, and meticulous attention to detail. With our vast knowledge and industry experience, we ensure that every project is executed to the highest standards, on time, and within budget.</p>', 'jpg', '2023-06-05 19:32:18', 1),
-(3, '', 0, '', '', '2023-06-05 19:35:44', 0);
+INSERT INTO `services` (`id`, `name`, `price`, `pin`, `description`, `image`, `updated_at`, `status`) VALUES
+(1, 'Customer Care', 2340000, 0, '<p>At StellarBuild, we are a leading construction company committed to transforming your visions into reality. With a proven track record of delivering exceptional projects, we offer a comprehensive range of construction services tailored to meet your specific needs. Whether you&#39;re a homeowner, business owner, or property developer, we have the expertise, resources, and dedication to bring your construction dreams to life.</p>', 'jpg', '2023-06-05 19:01:29', 1),
+(2, 'Welding', 350000, 0, '<p>Our team of highly skilled professionals, including architects, engineers, project managers, and craftsmen, work collaboratively to deliver outstanding results. From the initial design phase to the final touches, we prioritize quality, innovation, and meticulous attention to detail. With our vast knowledge and industry experience, we ensure that every project is executed to the highest standards, on time, and within budget.</p>', 'jpg', '2023-06-05 19:32:18', 1),
+(3, '', 0, 0, '', '', '2023-06-05 19:35:44', 0);
 
 -- --------------------------------------------------------
 
@@ -220,7 +255,7 @@ CREATE TABLE `slider_images` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `slider_images`
@@ -248,7 +283,7 @@ CREATE TABLE `staff` (
   `date_updated` datetime DEFAULT NULL,
   `date_deleted` datetime DEFAULT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `staff`
@@ -270,7 +305,7 @@ CREATE TABLE `subscriptions` (
   `date_suscribed` date NOT NULL,
   `unsubscribed` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -288,7 +323,7 @@ CREATE TABLE `testimonials` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -304,7 +339,7 @@ CREATE TABLE `users` (
   `email` varchar(500) NOT NULL,
   `level` varchar(2) NOT NULL,
   `activate` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
@@ -326,7 +361,7 @@ CREATE TABLE `videos` (
   `description` text NOT NULL,
   `location` varchar(255) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `videos`
@@ -349,7 +384,7 @@ CREATE TABLE `youtube_links` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL,
   `status` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `youtube_links`
@@ -362,6 +397,12 @@ INSERT INTO `youtube_links` (`id`, `link`, `caption`, `created_at`, `updated_at`
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `contact`
@@ -391,6 +432,12 @@ ALTER TABLE `news`
 -- Indexes for table `partners`
 --
 ALTER TABLE `partners`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -452,6 +499,12 @@ ALTER TABLE `youtube_links`
 --
 
 --
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
@@ -480,6 +533,12 @@ ALTER TABLE `news`
 --
 ALTER TABLE `partners`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `projects`
