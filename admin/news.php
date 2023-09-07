@@ -73,6 +73,8 @@
                             $title = mysqli_real_escape_string($db,trim($_POST['title']));
                            
                             $details = mysqli_real_escape_string($db,trim($_POST['details']));
+                            $category = mysqli_real_escape_string($db, trim($_POST['category']));
+                            $tags = mysqli_real_escape_string($db, trim($_POST['tags']));
                             
                             $image_name=$_FILES['image']['name'];
                             $image_size=$_FILES['image']['size'];
@@ -100,7 +102,8 @@
                                 $date = date('Y-m-d');
                                 
                                                 // Insert image content into database 
-                                                $insert = $db->query("INSERT INTO `news`(`title`,`details`,`image`,`status`,`date_added`,`admin_id`) VALUES ('".$title."','".$details."','".$image_ext."','".$status."','$date','".$_SESSION['user']."')"); 
+                                                $insert = $db->query("INSERT INTO `news`(`title`,`details`,`image`,`status`,`date_added`,`admin_id`,`category_id`,`tags`) 
+                                                VALUES ('".$title."','".$details."','".$image_ext."','".$status."','$date','".$_SESSION['user']."','$category','$tags')"); 
                                                 // get last created Id 
                                                 $last_id = $db->insert_id;
                                                 $image_file1=md5($last_id).'.'.$image_ext;
@@ -118,6 +121,8 @@
                             $id = mysqli_real_escape_string($db,trim($_POST['id']));
                             $title =mysqli_real_escape_string($db,trim($_POST['title'.$id]));
                             $details = mysqli_real_escape_string($db,trim($_POST['details'.$id]));
+                            $tags = mysqli_real_escape_string($db, trim($_POST['tags'.$id]));
+                            $category = mysqli_real_escape_string($db, trim($_POST['category'.$id]));
 
                             if (isset($_FILES['image'.$id]) && !empty($_FILES['image'.$id]) && $_FILES['image'.$id]['size']!=0){
                                 $image_name=$_FILES['image'.$id]['name'];
@@ -144,7 +149,8 @@
                                         }
                                 }else{
                                     // update with image content 
-                                    $update =$db->query("UPDATE news SET title='$title', details='$details', image='$image_ext' WHERE id=$id")
+                                    $update =$db->query("UPDATE news SET title='$title', details='$details', tags='$tags',category_id='$category',
+                                    image='$image_ext' WHERE id=$id")
                                     or die(mysqli_error($db));
                                     $image_file1=md5($id).'.'.$image_ext;
                                     move_uploaded_file($image_temp,'../images/news/'.$image_file1);
@@ -158,7 +164,7 @@
 
                             }else{
                                 // update without image content
-                                $update =$db->query("UPDATE news SET title='$title', details='$details' WHERE id=$id")
+                                $update =$db->query("UPDATE news SET title='$title',tags='$tags',category_id='$category', details='$details' WHERE id=$id")
                                 or die(mysqli_error($db));
                                 echo '<div class="alert alert-success alert-icon" role="alert">
                                                 <div class="alert-icon-content">
@@ -243,6 +249,34 @@
                                                                                 placeholder="Title of the News Article" class="form-control">
                                                                         </div>
                                                                     </div>
+                                                                    <div class="row form-group">
+                                                                        <div class="col col-md-2"><label for="category"
+                                                                                class=" form-control-label">Category:</label>
+                                                                        </div>
+                                                                        <div class="col-12 col-md-9">
+                                                                            <select name="category<?php echo $row['id']; ?>" id="category" class="form-control" required>
+                                                                                <option value="">Select Category</option>
+                                                                                <?php 
+                                                                                    $getcategory2 =mysqli_query($db,"SELECT * FROM category where status='1'");
+                                                                                    if (mysqli_num_rows($getcategory2)> 0){
+                                                                                        while ($rowcat2 = mysqli_fetch_array($getcategory2)){
+                                                                                        ?>
+                                                                                        <option value="<?php echo $rowcat2['category_id'];?>" <?php if ($rowcat2['category_id'] ==  $row['category_id']) echo "selected"; ?> > <?php echo $rowcat2['category'];?> </option>
+                                                                                        <?php }
+                                                                                    }
+                                                                                ?>  
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div class="col col-md-2"><label for="tags"
+                                                                                class=" form-control-label">Tags:</label>
+                                                                        </div>
+                                                                        <div class="col-12 col-md-9">
+                                                                        <input type="text" id="tags" name="tags<?php echo $row['id']; ?>" value="<?php echo $row['tags'] ?>"
+                                                                                placeholder="Tags of the News Article" class="form-control" >
+                                                                        </div>
+                                                                    </div>
 
                                                                     <div class="row form-group">
                                                                         <div class="col col-md-2"><label for="image"
@@ -306,6 +340,34 @@
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="title" name="title"
                                                         placeholder="Title of the News Article" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-2"><label for="category"
+                                                        class=" form-control-label">Category:</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <select name="category" id="category" class="form-control" required>
+                                                        <option value="">Select Category</option>
+                                                        <?php 
+                                                            $getcategory =mysqli_query($db,"SELECT * FROM category where status='1'");
+                                                            if (mysqli_num_rows($getcategory)> 0){
+                                                                while ($rowcat = mysqli_fetch_array($getcategory)){
+                                                                ?>
+                                                                <option value="<?php echo $rowcat['category_id'];?>" > <?php echo $rowcat['category'];?> </option>
+                                                                <?php }
+                                                            }
+                                                        ?>  
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-2"><label for="tags"
+                                                        class=" form-control-label">Tags:</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                <input type="text" id="tags" name="tags"
+                                                        placeholder="Tags of the News Article" class="form-control" >
                                                 </div>
                                             </div>
 

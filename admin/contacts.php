@@ -3,12 +3,25 @@
  if(!isset($_SESSION['user'])){
     header('Location:login');
        }
- $page = "portfolio";
+ $page = "contacts";
 
       if (isset($_GET['del'])) {
         $id = $_GET['del'];
-        $update = $db->query("UPDATE `projects` SET `status`='0' WHERE id='".$id."'");
+        $update = $db->query("UPDATE `contact` SET `status`='0' WHERE id='".$id."'");
         header('location: portfolio');
+    }
+    if (isset($_GET['mail'])){
+        $id = $_GET['mail'];
+        $sql = mysqli_query($db,"SELECT * FROM contact WHERE id='".$id."'");
+        $row = mysqli_fetch_array($sql);
+        $to = $row['email'];
+        $subject = "Reply from ".$row['name'];
+        $message = $_POST['message'];
+        $headers = "From:kagsburg@gmail.com" . "\r\n";
+        mail($to,$subject,$message,$headers);
+        $update = $db->query("UPDATE `contact` SET `status`='1' WHERE id='".$id."'");
+        header('location: contacts');
+
     }
 ?>
 <!DOCTYPE html>
@@ -64,9 +77,9 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Our Portfolio</h1>
-                        <a href="javascript.void(0)" data-toggle="modal" data-target="#addPortfolio" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas  fa-plus  fa-sm text-white-50"></i> Add Portfolio</a>
+                        <h1 class="h3 mb-0 text-gray-800">Contact Form</h1>
+                        <!-- <a href="javascript.void(0)" data-toggle="modal" data-target="#addPortfolio" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas  fa-plus  fa-sm text-white-50"></i> Add Portfolio</a> -->
                     </div>
 
                     <?php 
@@ -181,46 +194,50 @@
                     <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Our Projects</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Contact Form</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table " id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">Project Title</th>
-                                            <th>Client</th>
-                                            <th>Service</th>
+                                            <th>Names</th>
+                                            <th>Email</th>
+                                            <th>Message</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
                                     <?php
-	                                        $sql=mysqli_query($db,"SELECT * FROM projects where status='1'");
+	                                        $sql=mysqli_query($db,"SELECT * FROM contact where status='0' order by id desc");
                                             if (mysqli_num_rows($sql) == 0) {
                                                 echo '<tr><td colspan="8">No data available</td></tr>';
                                             } else{
 	                                        while($row=mysqli_fetch_array($sql)){
-                                                // get service name
-                                                $sql3=mysqli_query($db,"SELECT * FROM services where id='".$row['service']."'");
-                                                $row3=mysqli_fetch_array($sql3);
 
 
 	                                    ?>
                                             <tr>
-                                            <td><img class="img-profile rounded-circle" src="../images/projects/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td>
-                                                <td><?php echo $row["title"]; ?></td>
-                                                <td><?php echo $row["client"]; ?></td>
-                                                <td><?php echo $row3["name"]; ?></td>
+                                            <!-- <td><img class="img-profile rounded-circle" src="../images/projects/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td> -->
+                                                <td><?php echo $row["name"]; ?></td>
+                                                <td><?php echo $row["email"]; ?></td>
+                                                <td><?php echo $row["message"]; ?></td>
                                                 <td>
-                                                <a href="javascript.void(0)" data-toggle="modal" data-target="#editPort<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
+                                                    <!-- button to email that use back  -->
+                                                    <a href="mailto:<?php echo $row['email']; ?>" class="btn btn-primary btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </span>
+                                                    <span class="text">Reply</span>
+                                                </a>
+                                                <!-- <a href="javascript.void(0)" data-toggle="modal" data-target="#editPort<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                     <span class="text">Edit</span>
-                                                </a>
-                                                <a href="portfolio?del=<?php echo $row['id'];?>" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-icon-split btn-sm">
+                                                </a> -->
+                                                <!-- <a href="portfolio?del=<?php echo $row['id'];?>" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-trash"></i>
                                                     </span>
@@ -231,7 +248,7 @@
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                     <span class="text">Add Photos</span>
-                                                </a>
+                                                </a> -->
                                                 </td>
                                             </tr>
                                              <!-- Edit Service Modal-->

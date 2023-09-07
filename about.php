@@ -94,16 +94,16 @@ $page="about";
                             <a>general supply</a> for all types of customers. With comprehensive skills and knowledge, we are your one-stop to meet your 
                             demands with our best services.
                              We utilize the latest methodologies and tools to ensure safety and quality come first.</p>
-                             <h2 class="column-title">Our Vision Statement</h2>
+                             <h2 class="column-title2">Our Vision Statement</h2>
                              <p class="bold-text" style="text-align: justify;">To have the quickest response time in the industry by dedicated to not only achieving, 
                                 but exceeding client expectations in a diversified, multinational customer a
                                 nd supplier base with total collaboration with marketplace.</p>
-                                <h2 class="column-title">Our Mission</h2>
+                                <h2 class="column-title2">Our Mission</h2>
                              <p class="bold-text" style="text-align: justify;">To provide our customers with valued reliable high quality solutions for global
 engineering problems, always ensuring that integrity, safety and sustainability are of the heart of
 everything we do.</p>
                             <a href="services" class="top-right-btn btn btn-primary">Services</a>
-                            <a href="projects" class="top-right-btn btn btn-secondary">Products</a>
+                            <a href="products" class="top-right-btn btn btn-secondary">Products</a>
                         </div>
                         <!-- Col end-->
                         <div class="col-lg-6 text-md-center mrt-40">

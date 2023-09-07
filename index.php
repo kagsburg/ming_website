@@ -207,7 +207,7 @@ $page="home";
                 <!-- Title row end-->
                 <div class="row ts-service-row-box">
                     <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM services where status = '1' order by id desc limit 3");
+	                        $sql=mysqli_query($con,"SELECT * FROM services where status = '1' and pin='1' order by id desc");
 	                        while($row=mysqli_fetch_array($sql)){
 	                    ?>
                     <div class="col-lg-4 col-md-12">
@@ -510,7 +510,7 @@ everything we do.</h2>
                         <figure class="item partner-logo">
                             <a href="<?php echo $row["website"]; ?>">
                                 <img class="img-fluid"
-                                    src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["logo"]); ?>"
+                                    src="images/partners/<?php echo md5($row['id']) ?>.<?php echo $row['logo'] ?>"
                                     alt="">
                             </a>
                         </figure>

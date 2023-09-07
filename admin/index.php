@@ -119,12 +119,12 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Staff
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Products
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php
-                                                    $sql = "SELECT * FROM staff";
+                                                    $sql = "SELECT * FROM products where status='1'";
                                                     $result = $db->query($sql);
                                                     $numberOfProjects=mysqli_num_rows($result);
                                                     echo $numberOfProjects;

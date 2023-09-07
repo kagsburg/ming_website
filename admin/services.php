@@ -12,6 +12,30 @@ $page = "service";
         header('location: services');
     }
 
+    if (isset($_GET['pin'])) {
+        $id = $_GET['pin'];
+        $checkpin=$db->query("SELECT * FROM services WHERE pin = '1'");
+        if (mysqli_num_rows($checkpin) <= 3) {
+            $update = $db->query("UPDATE `services` SET `pin`='1' WHERE id='".$id."'");
+            header('location: services');
+        }else{
+            // show error to user can't pin more than 3
+           $_SESSION['msg']= '<div class="alert alert-danger alert-icon" role="alert">
+            <div class="alert-icon-content">
+                <h6 class="alert-heading">Error</h6>
+                You cannot pin more than 3 services.
+            </div>
+                </div>';
+        }
+       
+    }
+    
+    if (isset($_GET['unpin'])) {
+        $id = $_GET['unpin'];
+        $update = $db->query("UPDATE `services` SET `pin`='0' WHERE id='".$id."'");
+        header('location: services');
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,8 +95,13 @@ $page = "service";
                                 class="fas fa-plus fa-sm text-white-50"></i> Add Services </a>
                     </div>                   
                         <?php 
+                        if (isset($_SESSION['msg'])) {
+                            echo $_SESSION['msg'];
+                            unset($_SESSION['msg']);
+                        }
+                       
                                     if(isset($_POST["submitNew"])){ 
-                                        $price = mysqli_real_escape_string($db,trim($_POST['price'])); 
+                                        $price ='';// mysqli_real_escape_string($db,trim($_POST['price'])); 
                                         $name = mysqli_real_escape_string($db,trim($_POST['name']));
                                         $description = mysqli_real_escape_string($db,trim($_POST['description']));
                                        
@@ -118,7 +147,7 @@ $page = "service";
 
                                     if(isset($_POST["updateService"])){
                                         $id = mysqli_real_escape_string($db,trim($_POST['id']));
-                                        $price = mysqli_real_escape_string($db,trim($_POST['price'.$id]));
+                                        $price ='';// mysqli_real_escape_string($db,trim($_POST['price'.$id]));
                                         $name = mysqli_real_escape_string($db,trim($_POST['name'.$id]));
                                         $description = mysqli_real_escape_string($db,trim($_POST['description'.$id]));
 
@@ -223,6 +252,17 @@ $page = "service";
                                                     </span>
                                                     <span class="text">Remove</span>
                                                 </a>
+                                                <?php if ($row['pin'] == 0) { ?>
+                                                <a href="services?pin=<?php echo $row['id'];?>" class="btn btn-primary  btn-sm">
+                                                    
+                                                    <span class="text">Pin Service</span>
+                                                </a>
+                                                <?php }else{ ?>
+                                                    <a href="services?unpin=<?php echo $row['id'];?>" class="btn btn-primary  btn-sm">
+                                                    <span class="text">Unpin Service</span>
+                                                </a>
+                                                <?php } ?>
+
                                                     <!-- <a href="javascript.void(0)" data-toggle="modal"  class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a> -->
                                                     <!-- <a href="services.php?del=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> -->
                                                 </td> 
@@ -251,13 +291,13 @@ $page = "service";
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
+                                            <!-- <div class="row form-group">
                                                 <div class="col col-md-2"><label for="price"
                                                         class=" form-control-label">Price</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="price" name="price<?php echo $row['id']  ?>" value="<?php echo $row['price']  ?>"
                                                         placeholder="Price of Service" class="form-control"></div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="image"
@@ -320,13 +360,13 @@ $page = "service";
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
+                                            <!-- <div class="row form-group">
                                                 <div class="col col-md-2"><label for="price"
                                                         class=" form-control-label">Price</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="price" name="price"
                                                         placeholder="Price of Service" class="form-control"></div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="image"

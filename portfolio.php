@@ -67,10 +67,10 @@ $page='port';
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
-                            <h1 class="banner-title">All Projects</h1>
+                            <h1 class="banner-title">All Works</h1>
                             <ol class="breadcrumb">
                                 <li><a href="index">Home</a></li>
-                                <li><a href="portfolio">Projects</a></li>
+                                <li><a href="portfolio">Works</a></li>
                             </ol>
                         </div>
                     </div>
@@ -86,7 +86,7 @@ $page='port';
             <div class="container">
                 <div class="row text-center">
                     <div class="col-md-12">
-                        <h2 class="section-title"><span>Take a look at </span>Our Projects</h2>
+                        <h2 class="section-title"><span>Take a look at </span>Our Works</h2>
                     </div>
                 </div>
                 <div class="row ">

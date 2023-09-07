@@ -18,7 +18,7 @@ $data = $row;
     ==================================================
     -->
     <meta charset="utf-8">
-    <title>Project Details</title>
+    <title>Work Details</title>
     <!--
     Mobile Specific Metas
     ==================================================
@@ -77,7 +77,7 @@ $data = $row;
                             <h1 class="banner-title"><?php echo $data['title']; ?></h1>
                             <ol class="breadcrumb">
                                 <li><a href="index">Home</a></li>
-                                <li><a href="portfolio">Projects</a></li>
+                                <li><a href="portfolio">Works</a></li>
                             </ol>
                         </div>
                     </div>
@@ -136,7 +136,7 @@ $data = $row;
                     <!-- col end -->
                     <div class="col-lg-4 project-right-side">
                         <div class="single-project-content">
-                            <h3> Project Details</h3>
+                            <h3> Works Details</h3>
                             <?php echo $data['description']; ?>
                         </div>
                         <!-- project content end -->
@@ -163,7 +163,7 @@ $data = $row;
                                         <button class="btn btn-link project-btn collapsed" data-toggle="collapse"
                                             data-target="#collapseTwo" aria-expanded="false"
                                             aria-controls="collapseTwo">
-                                            <span> Project Manager </span>
+                                            <span> Works Manager </span>
                                         </button>
                                     </h5>
                                 </div>
@@ -202,7 +202,7 @@ $data = $row;
                                 </div>
                             </div>
                         </div>
-                        <a href="portfolio" class="btn-block btn btn-primary">View Projects</a>
+                        <a href="portfolio" class="btn-block btn btn-primary">View More Works</a>
 
                     </div>
                     <!-- col end -->

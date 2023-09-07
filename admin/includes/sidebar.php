@@ -96,6 +96,18 @@
             <span> Updates </span>
         </a>
     </li> 
+    <li class="nav-item 
+    <?php
+        if($page == 'categories'){
+            echo 'active';
+        }
+    ?>
+    ">
+        <a class="nav-link" href="category">
+            <i class="fas  fa-newspaper"></i>
+            <span> Updates Categories </span>
+        </a>
+    </li> 
     <hr class="sidebar-divider">
     <li class="nav-item 
     <?php
@@ -159,6 +171,33 @@
         <a class="nav-link" href="partners">
         <i class="fas fa-users"></i>
             <span> Partners </span>
+        </a>
+    </li>
+    <hr class="sidebar-divider">
+    <li class="nav-item 
+    <?php
+        if($page == 'contacts'){
+            echo 'active';
+        }
+    ?>
+    ">
+        <a class="nav-link" href="contacts">
+        <i class="fas  fa-users-cog"></i>
+            <span> Contact Form </span>
+        </a>
+    </li>
+    <hr class="sidebar-divider">
+    
+    <li class="nav-item 
+    <?php
+        if($page == 'quotes'){
+            echo 'active';
+        }
+    ?>
+    ">
+        <a class="nav-link" href="quote">
+        <i class="fas  fa-newspaper"></i>
+            <span> Quote </span>
         </a>
     </li>
     <hr class="sidebar-divider">

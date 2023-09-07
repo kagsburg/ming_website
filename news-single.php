@@ -9,6 +9,9 @@ $data = $row;
 $getauthor = mysqli_query($con,"SELECT * FROM users where user_id='".$row['admin_id']."'");
 $author = mysqli_fetch_array($getauthor);
 $data['author'] = $author['fullnames'];
+$getcategory = mysqli_query($con,"SELECT * FROM category where category_id='".$row['category_id']."'");
+$category = mysqli_fetch_array($getcategory);
+$data['category'] = $category['category'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +72,7 @@ $data['author'] = $author['fullnames'];
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/news.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/newsbanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
@@ -103,11 +106,11 @@ $data['author'] = $author['fullnames'];
 
                             <div class="post-body">
                                 <div class="entry-header">
-                                    <!-- <div class="post-meta"><span class="post-cat"><i class="icon icon-folder"></i><a>
+                                    <div class="post-meta"><span class="post-cat"><i class="icon icon-folder"></i><a>
                                                 <?php echo $data["category"]; ?></a></span>
                                         <span class="post-tag"><i class="icon icon-tag"></i><a>
-                                                <?php echo $data["tag"]; ?></a></span>
-                                    </div> -->
+                                                <?php echo $data["tags"]; ?></a></span>
+                                    </div>
                                     <h2 class="entry-title"><a>
                                             <?php echo $data["title"]; ?></a></h2>
                                 </div>

@@ -71,7 +71,7 @@ $page='contact';
                         <div class="banner-heading">
                             <h1 class="banner-title">Contact Us</h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.php">Home</a></li>
+                                <li><a href="index">Home</a></li>
                                 <li><a href="">Contact</a></li>
                             </ol>
                         </div>
@@ -91,10 +91,8 @@ $page='contact';
                         <div class="contact-wrapper full-contact">
                             <div class="col-lg-6">
                                 <h3 class="column-title">Contact Us</h3>
-                                <p class="contact-content">Our vision is to have quickest response time in the industry
-                                    by dedicating
-                                    to not only achieving, but exceeding client expectations in diversified,
-                                    multinational customer and supplier base with total collaboration with marketplace.
+                                <p class="contact-content">We provide our customers with valued reliable high quality solutions for global engineering problems, always ensuring that integrity, 
+                                    safety and sustainability are of the heart of everything we do.
                                 </p>
                                 <div class="contact-info-box contact-box info-box ">
                                     <div class="contact-info">
@@ -102,7 +100,7 @@ $page='contact';
                                                     class="icon icon-map-marker2"></i></span>
                                             <div class="ts-contact-content">
                                                 <h3 class="ts-contact-title">Postal Address</h3>
-                                                <p>P.O BOX 96265 Dar es salaam</p>
+                                                <p>P.O BOX 96265 Dar es salaam, Tanzania</p>
                                             </div>
                                             <!-- Contact content end-->
                                         </div>
@@ -110,7 +108,7 @@ $page='contact';
                                                     class="icon icon-phone3"></i></span>
                                             <div class="ts-contact-content">
                                                 <h3 class="ts-contact-title">Call Us</h3>
-                                                <p>+255-767-145-678</p>
+                                                <p>+255-767-145-678 | +255-772-888-003</p>
                                             </div>
                                             <!-- Contact content end-->
                                         </div>

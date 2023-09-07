@@ -4,13 +4,15 @@ include("db/config.php");
 if(!isset($_SESSION['user'])){
     header('Location:login');
        }
-$page = "products";
+$page = "categories";
 
       if (isset($_GET['del'])) {
         $id = $_GET['del'];
-        $update = $db->query("UPDATE `products` SET `status`='0' WHERE id='".$id."'");
-        header('location: products');
+        $update = $db->query("UPDATE `category` SET `status`='0' WHERE category_id='".$id."'");
+        header('location: category');
     }
+
+   
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +27,7 @@ $page = "products";
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Products</title>
+    <title>Update Categories</title>
     <link href="images/icon/favicon.ico" rel="icon">
     <script src="ckeditor/ckeditor.js"></script>
   <link rel="stylesheet" href="ckeditor/samples/sample.css">
@@ -66,133 +68,81 @@ $page = "products";
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Our Products </h1>
+                        <h1 class="h3 mb-0 text-gray-800">Our Categories </h1>
                         <a href="javascript.void(0)" data-toggle="modal" data-target="#addService" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-plus fa-sm text-white-50"></i> Add Services </a>
+                                class="fas fa-plus fa-sm text-white-50"></i> Add Categories </a>
                     </div>                   
                         <?php 
+                        if (isset($_SESSION['msg'])) {
+                            echo $_SESSION['msg'];
+                            unset($_SESSION['msg']);
+                        }
+                       
                                     if(isset($_POST["submitNew"])){ 
-                                        $price = mysqli_real_escape_string($db,trim($_POST['price'])); 
+                                        // $price = mysqli_real_escape_string($db,trim($_POST['price'])); 
                                         $name = mysqli_real_escape_string($db,trim($_POST['name']));
-                                        $description = mysqli_real_escape_string($db,trim($_POST['description']));
-                                       
-                                        $image_name=$_FILES['image']['name'];
-                                        $image_size=$_FILES['image']['size'];
-                                        $image_temp=$_FILES['image']['tmp_name'];
-                                        $allowed_ext=array('jpg','jpeg','png','gif','');
-                                        $ext=explode('.',$image_name);
-                                        $image_ext=  strtolower(end($ext));
-                                        $status='1';
-                                        $errors=array();
-                                        if (in_array($image_ext,$allowed_ext)===false){
-                                        $errors[]='File type not allowed';
-                                        }
-                                        if($image_size>10097152){
-                                        $errors[]='Maximum size is 10Mb';
-                                        }
-                                        if(!empty($errors)){
-                                        foreach($errors as $error){ 
-                                        echo ' <div class="alert alert-danger alert-icon" role="alert">
-                                        <div class="alert-icon-content">
-                                            '.$error.'
-                                        </div>
-                                            </div>';
-                                        }
+                                        $check= $db->query("SELECT * from category where category='$name' and status='1'");
+                                        if (mysqli_num_rows($check) > 0){
+                                            
+                                            echo '<div class="alert alert-danger alert-icon" role="alert">
+                                            <div class="alert-icon-content">
+                                                <h6 class="alert-heading">Error</h6>
+                                                Category Already exists
+                                            </div>
+                                        </div>';
                                         }else{
-                                            $date = date('Y-m-d H:i:s');
-                                                // Insert image content into database 
-                                                $insert = $db->query("INSERT INTO `products`(`price`, `name`, `description`,`image`,`status`,`pin`,`dateadded_at`,`admin_id`) 
-                                                VALUES ('".$price."','".$name."','".$description."','".$image_ext."','".$status."','0','$date','".$_SESSION['user']."')"); 
-                                                // get last created Id 
-                                                $last_id = $db->insert_id;
-                                                $image_file1=md5($last_id).'.'.$image_ext;
-                                                move_uploaded_file($image_temp,'../images/products/'.$image_file1);
 
-                                                echo '<div class="alert alert-success alert-icon" role="alert">
-                                                <div class="alert-icon-content">
-                                                    <h6 class="alert-heading">Success</h6>
-                                                    New Product Added Successfully.
-                                                </div>
-                                            </div>';
+                                            // Insert image content into database 
+                                            $insert = $db->query("INSERT INTO `category`(`category`,`status`) VALUES ('".$name."','1')"); 
+                                            // get last created Id 
+                                            // $last_id = $db->insert_id;
+                                            // $image_file1=md5($last_id).'.'.$image_ext;
+                                            // move_uploaded_file($image_temp,'../images/services/'.$image_file1);
+    
+                                            echo '<div class="alert alert-success alert-icon" role="alert">
+                                            <div class="alert-icon-content">
+                                                <h6 class="alert-heading">Success</h6>
+                                                New Category Added Successfully.
+                                            </div>
+                                        </div>';
                                         }
+                                            
                                     } 
 
                                     if(isset($_POST["updateService"])){
                                         $id = mysqli_real_escape_string($db,trim($_POST['id']));
-                                        $price = mysqli_real_escape_string($db,trim($_POST['price'.$id]));
-                                        $name = mysqli_real_escape_string($db,trim($_POST['name'.$id]));
-                                        $description = mysqli_real_escape_string($db,trim($_POST['description'.$id]));
-
-                                        if (isset($_FILES['image'.$id]) && !empty($_FILES['image'.$id]) && $_FILES['image'.$id]['size']!=0){
-                                            $image_name=$_FILES['image'.$id]['name'];
-                                            $image_size=$_FILES['image'.$id]['size'];
-                                            $image_temp=$_FILES['image'.$id]['tmp_name'];
-                                            $allowed_ext=array('jpg','jpeg','png','gif','');
-                                            $ext=explode('.',$image_name);
-                                            $image_ext=  strtolower(end($ext));
-                                            $status='1';
-                                            $errors=array();
-                                            if (in_array($image_ext,$allowed_ext)===false){
-                                            $errors[]='File type not allowed';
-                                            }
-                                            if($image_size>10097152){
-                                            $errors[]='Maximum size is 10Mb';
-                                            }
-                                            if(!empty($errors)){
-                                                foreach($errors as $error){
-                                                    echo ' <div class="alert alert-danger alert-icon" role="alert">
-                                                    <div class="alert-icon-content">
-                                                    '.$error.'
-                                                                </div>
-                                                    </div>';
-                                                    }
-                                            }else{
-                                                // update with image content 
-                                                $update = $db->query("UPDATE `products` SET `price`='".$price."',`name`='".$name."',`description`='".$description."',`image`='".$image_ext."' WHERE id='".$id."'");
-                                                $image_file1=md5($id).'.'.$image_ext;
-                                                move_uploaded_file($image_temp,'../images/products/'.$image_file1);
-                                                echo '<div class="alert alert-success alert-icon" role="alert">
-                                                                <div class="alert-icon-content">
-                                                                <h6 class="alert-heading">Success</h6>
-                                                                Product Updated Successfully
-                                                            </div>
-                                                        </div>';
-                                            }
-
-                                        }else{
+                                        $name2 = mysqli_real_escape_string($db,trim($_POST['name'.$id]));
+                                        // $description = mysqli_real_escape_string($db,trim($_POST['description'.$id]));
                                             // update without image content 
-                                            $update = $db->query("UPDATE `products` SET `price`='".$price."',`name`='".$name."',`description`='".$description."' WHERE id='".$id."'");
+                                            $update = $db->query("UPDATE `category` SET category='".$name2."' WHERE category_id='".$id."'");
                                             echo '<div class="alert alert-success alert-icon" role="alert">
                                                             <div class="alert-icon-content">
                                                             <h6 class="alert-heading">Success</h6>
-                                                            Product Updated Successfully
+                                                            Category Updated Successfully
                                                         </div>
                                                     </div>';
                                         }
-                                    }
+                                    
                         
                         ?>
                     <!-- Content Row -->
                     <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Categories</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">Product Name</th>
-                                            <th>Product Price</th>
-                                            <!-- <th>Service Description</th> -->
+                                            <th >Name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                          <th colspan="2">Service Name</th>
-                                            <th>Service Price</th>
+                                          <th> Name</th>
                                             <th>Action</th>
                                             
                                         </tr>
@@ -200,25 +150,23 @@ $page = "products";
                                     <tbody>
                                         
                                     <?php
-	                                        $sql=mysqli_query($db,"SELECT * FROM products where status = '1' order by id desc");
+	                                        $sql=mysqli_query($db,"SELECT * FROM category where status = '1' order by category_id desc");
                                             if (mysqli_num_rows($sql) == 0) {
                                                 echo '<tr><td colspan="8">No data available</td></tr>';
                                             } else{
 	                                        while($row=mysqli_fetch_array($sql)){
 	                                    ?>
                                             <tr>
-                                                <td><img class="img-profile rounded-circle" src="../images/products/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="100px" height="100px"/></td>
-                                                <td><?php echo $row["name"]; ?></td>
-                                                <td><?php echo $row["price"]; ?></td>
-                                                <!-- <td><?php echo $row["description"]; ?></td> -->
+                                                <!-- <td><img class="img-profile rounded-circle" src="../images/services/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="100px" height="100px"/></td> -->
+                                                <td><?php echo $row["category"]; ?></td>
                                                 <td>
-                                                <a href="javascript.void(0)" data-toggle="modal" data-target="#editService<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
+                                                <a href="javascript.void(0)" data-toggle="modal" data-target="#editService<?php echo $row['category_id']; ?>" class="btn btn-success btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                     <span class="text">Edit</span>
                                                 </a>
-                                                <a href="products?del=<?php echo $row['id'];?>" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-icon-split btn-sm">
+                                                <a href="category?del=<?php echo $row['category_id'];?>" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-trash"></i>
                                                     </span>
@@ -230,51 +178,30 @@ $page = "products";
 
                                             </tr>
                                             <!-- Edit Service Modal-->
-                                            <div class="modal fade" id="editService<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                            <div class="modal fade" id="editService<?php echo $row['category_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"> Edit <?php echo $row['name']  ?></h5>
+                            <h5 class="modal-title" id="exampleModalLabel"> Edit <?php echo $row['category']  ?></h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
                         <div class="modal-body">
                         <form action="" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="id" value="<?php echo $row['id']  ?>">
+                            <input type="hidden" name="id" value="<?php echo $row['category_id']  ?>">
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="name"
                                                         class=" form-control-label">Name</label>
                                                 </div>
-                                                <div class="col-12 col-md-9"><input type="text" id="name" name="name<?php echo $row['id']  ?>" value="<?php echo $row['name']  ?>"
+                                                <div class="col-12 col-md-9"><input type="text" id="name" name="name<?php echo $row['category_id']  ?>" value="<?php echo $row['category']  ?>"
                                                         placeholder="Service Name" class="form-control">
                                                 </div>
                                             </div>
-
-                                            <div class="row form-group">
-                                                <div class="col col-md-2"><label for="price"
-                                                        class=" form-control-label">Price</label>
-                                                </div>
-                                                <div class="col-12 col-md-9"><input type="text" id="price" name="price<?php echo $row['id']  ?>" value="<?php echo $row['price']  ?>"
-                                                        placeholder="Price of Service" class="form-control"></div>
-                                            </div>
-
-                                            <div class="row form-group">
-                                                <div class="col col-md-2"><label for="image"
-                                                        class=" form-control-label">
-                                                        Photo</label>
-                                                </div>
-                                                <div class="col-12 col-md-9"> <input type="file" name="image<?php echo $row['id']  ?>" >
-                                                </div>
-                                            </div>
+                                            
                                             <div class="form-group">
-                                                <label for="description">Description</label>
-
-                                                <textarea name="description<?php echo $row['id']  ?>" class="ckeditor" cols="70" id="editor1" ><?php echo $row['description']  ?></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <button class=" btn btn-success w-100" type="submit" name="updateService">Edit Product</button>
+                                                <button class=" btn btn-success w-100" type="submit" name="updateService">Edit Service</button>
                                             </div>
                                         </form>
                         </div>
@@ -305,7 +232,7 @@ $page = "products";
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"> Add New Product</h5>
+                            <h5 class="modal-title" id="exampleModalLabel"> Add New Category</h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -317,16 +244,16 @@ $page = "products";
                                                         class=" form-control-label">Name</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="name" name="name"
-                                                        placeholder="Product Name" class="form-control">
+                                                        placeholder="Category Name" class="form-control" required>
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
+                                            <!-- <div class="row form-group">
                                                 <div class="col col-md-2"><label for="price"
                                                         class=" form-control-label">Price</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="price" name="price"
-                                                        placeholder="Price of Product" class="form-control"></div>
+                                                        placeholder="Price of Service" class="form-control"></div>
                                             </div>
 
                                             <div class="row form-group">
@@ -341,11 +268,11 @@ $page = "products";
                                                 <label for="description">Description</label>
 
                                                 <textarea name="description" class="ckeditor" cols="70" id="editor1" ></textarea>
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
                                                 <button class=" btn btn-success w-100" type="submit" name="submitNew">Add
                                                     New
-                                                    Product</button>
+                                                    Category</button>
                                             </div>
                                         </form>
                         </div>

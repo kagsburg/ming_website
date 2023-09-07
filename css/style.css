@@ -551,6 +551,11 @@ section .title-white {
   line-height: 30px;
   margin: 0 0 40px;
 }
+.column-title2 {
+  font-size: 28px;
+  line-height: 30px;
+  /* margin: 0 0 40px; */
+}
 
 .column-title span {
   font-size: 18px;

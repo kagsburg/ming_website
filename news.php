@@ -63,7 +63,7 @@ $page='media';
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/news.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/newsbanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">

@@ -12,7 +12,7 @@ $id = $_GET['id'];
     ==================================================
     -->
     <meta charset="utf-8">
-    <title> Minagrico - Service Details</title>
+    <title> Minagrico - Product Details</title>
     <!--
     Mobile Specific Metas
     ==================================================
@@ -58,15 +58,15 @@ $id = $_GET['id'];
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/servicesbanner.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/productsbanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
-                            <h1 class="banner-title">Service</h1>
+                            <h1 class="banner-title">Products</h1>
                             <ol class="breadcrumb">
                                 <li><a href="index">Home</a></li>
-                                <li><a href="service">Services</a></li>
+                                <li><a href="products">Products</a></li>
                             </ol>
                         </div>
                     </div>
@@ -82,16 +82,16 @@ $id = $_GET['id'];
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4">
-                        <h4 class="list-column-title">More Services</h4>
+                        <h4 class="list-column-title">More Products</h4>
                         <div class="sidebar ">
                             <div class="widget no-padding no-border">
                                 <ul class="service-menu">
                                     <?php
-	                                    $sql=mysqli_query($con,"SELECT * FROM services where status='1' and id !='$id' limit 6");
+	                                    $sql=mysqli_query($con,"SELECT * FROM products where status='1' and id !='$id' limit 6");
 	                                    while($row=mysqli_fetch_array($sql)){
 	                                 ?>
                                     <li><a
-                                            href="service-single?id=<?php echo $row["id"]?>"><?php echo $row["name"]?></a>
+                                            href="product-single?id=<?php echo $row["id"]?>"><?php echo $row["name"]?></a>
                                     </li>
                                     <?php } ?>
                                 </ul>
@@ -128,16 +128,25 @@ $id = $_GET['id'];
                     <!-- Col end -->
                     <?php 
 
-                        $sql=mysqli_query($con,"SELECT * FROM services where id='$id' where status='1'");
+                        $sql=mysqli_query($con,"SELECT * FROM products where id='$id' and status='1'");
                         $row=mysqli_fetch_array($sql);
                         $data = $row;
                     ?>
                     <div class="col-lg-8">
                         <div class="single-service-img">
                             <img src="
-                            images/services/<?php echo md5($data['id']) ?>.<?php echo $data['image'] ?>"
+                            images/products/<?php echo md5($data['id']) ?>.<?php echo $data['image'] ?>"
                                 style="height: 470px; width: 690px;" />
                         </div>
+                        <div class="entry-header">
+                                        <div class="post-meta">
+                                            <!-- <span class="post-cat"><i
+                                                    class="icon icon-folder"></i><a>
+                                                    <?php echo $row["category"]; ?></a></span> -->
+                                            <span class="post-tag"><i class="icon icon-tag"></i>
+                                                <?php echo $data["price"]; ?></span>
+                                        </div>
+                                    </div>
                         <div class="service-content">
                             <h2><?php echo $data['name']; ?></h2>
 

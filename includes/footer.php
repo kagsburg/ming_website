@@ -9,14 +9,14 @@
                     <p>We provide our customers with valued reliable high quality solutions  for global engineering problems, always ensuring that integrity, 
                         safety and sustainability are of the heart of everything we do.</p>
 
-                    <h3 class="widget-title">Subscribe Newsletter!</h3>
+                    <!-- <h3 class="widget-title">Subscribe Newsletter!</h3>
                     <form class="newsletter-form" id="newsletter-form" action="#" method="post">
                         <div class="form-group">
                             <input class="form-control form-control-lg" id="newsletter-form-email" type="email"
                                 name="email" placeholder="Email " autocomplete="off">
                             <button class="btn btn-primary"><i class="fa fa-paper-plane"></i></button>
                         </div>
-                    </form>
+                    </form> -->
                 </div>
                 <!-- About us end-->
                 <div class="col-lg-4 col-md-12 footer-widget">

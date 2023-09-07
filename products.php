@@ -1,6 +1,6 @@
 <?php
 include ("includes/config.php");
-$page='media';
+$page='service';
 
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $page='media';
     ==================================================
     -->
     <meta charset="utf-8">
-    <title>Minagrico - Gallery</title>
+    <title>Minagrico - Products</title>
     <!--
     Mobile Specific Metas
     ==================================================
@@ -30,7 +30,7 @@ $page='media';
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- Animation-->
     <link rel="stylesheet" href="css/animate.css">
-    <!-- Morris -->
+    <!-- Morris CSS -->
     <link rel="stylesheet" href="css/morris.css">
     <!-- FontAwesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -46,6 +46,7 @@ $page='media';
     <link rel="stylesheet" href="css/style.css">
     <!-- Responsive styles-->
     <link rel="stylesheet" href="css/responsive.css">
+
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file.-->
     <!--if lt IE 9
     script(src='js/html5shiv.js')
@@ -58,20 +59,20 @@ $page='media';
     <div class="body-inner">
 
         <div class="site-top-2">
-           <?php include ("includes/navbar.php")?>
+            <?php include('includes/navbar.php') ?>
             <!-- Header end-->
         </div>
 
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/gallerybanner.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/productsbanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
-                            <h1 class="banner-title">Gallery</h1>
+                            <h1 class="banner-title">Our Products</h1>
                             <ol class="breadcrumb">
                                 <li><a href="index">Home</a></li>
-                                <li><a href="#">Gallery</a></li>
+                                <li><a href="products">Products</a></li>
                             </ol>
                         </div>
                     </div>
@@ -83,33 +84,45 @@ $page='media';
         </div>
         <!-- Banner area end-->
 
-        <section id="main-container" class="main-container">
-            <div class="container">
-                <div class="row text-center">
-                    <div class="col-md-12">
-                        <h2 class="section-title"><span>Transportation Worldwide</span>Our Gallery</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM gallery where status='1' order by id desc");
-	                        while($row=mysqli_fetch_array($sql)){
-	                    ?>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="gallery-img">
-                            <img class="img-fluid"
-                                src="images/gallery/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
-                                alt="">
+        <section class="main-container no-padding" id="main-container">
+            <div class="ts-services " id="ts-services">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-12">
+                            <h2 class="section-title"><span>Providing reliable high quality
+                                    solutions for global engineering problems</span>Our Products</h2>
                         </div>
                     </div>
-                    <?php } ?>
-                    <!--  item 1 end -->
+                    <!-- Title row end-->
+                    <div class="row">
+                        <?php
+	                        $sql=mysqli_query($con,"SELECT * FROM products where status = '1'  order by id desc limit 10");
+	                        while($row=mysqli_fetch_array($sql)){
+	                    ?>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="ts-service-box">
+                                <div class="ts-service-image-wrapper">
+                                    <img class="img-fluid"
+                                        src="images/products/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
+                                        style="height: 300px; width: 100%;" alt="">
+                                </div>
+                                <div class="ts-service-content text-center">
+                                    <h3 class="service-title"><?php echo $row["name"]; ?></h3>
+                                    <p><a class="link-more" href="product-single?id=<?php echo $row["id"]?>">Read
+                                            More<i class="icon icon-right-arrow2"></i></a></p>
+                                </div>
+                            </div>
+                            <!-- Service1 end-->
+                        </div>
+                        <?php } ?>
+                        <!-- Col 1 end-->
+                    </div>
+                    <!-- Content 1 row end-->
+                    <div class="gap-60"></div>
                 </div>
-                <!--/ Content row 1 end -->
+                <!-- Container end-->
             </div>
-            <!--/ Container end -->
-        </section><!-- Main container end -->
-
+        </section>
 
         <!-- Footer start-->
 
