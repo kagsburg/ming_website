@@ -1,7 +1,6 @@
 <?php
 include ("includes/config.php");
-$page='faq';
-
+$page='team';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +11,7 @@ $page='faq';
     ==================================================
     -->
     <meta charset="utf-8">
-    <title>Minagrico - FAQs</title>
+    <title>Minagrico - Clients</title>
     <!--
     Mobile Specific Metas
     ==================================================
@@ -62,15 +61,15 @@ $page='faq';
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/faq.jpg);">
+        <div class="banner-area" id="banner-area" style="background-image:url(images/aboutheader.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
-                            <h1 class="banner-title">FAQs</h1>
+                            <h1 class="banner-title">Our Clients</h1>
                             <ol class="breadcrumb">
                                 <li><a href="index.php">Home</a></li>
-                                <li><a href="#">FAQs</a></li>
+                                <li><a href="#">Clients</a></li>
                             </ol>
                         </div>
                     </div>
@@ -81,53 +80,62 @@ $page='faq';
             <!-- Container end-->
         </div>
         <!-- Banner area end-->
-        <section class="main-container" id="main-container">
 
+        <section class="ts-team solid-bg">
             <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <h2 class="section-title"><span>We are proud of</span>Our Clients</h2>
+                    </div>
+                </div>
+                <!-- Title row end-->
                 <div class="row">
-                    <div class="col-lg-8">
-                        <div class="accordion-title">
-                            <h3 class="column-title"><span>Our FAQs</span> Frequently Asked Questions</h3>
-                        </div>
-                        <div id="accordion" class="accordion-area">
-                            <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM faqs where status='1'order by id desc ");
+                    <?php
+	                        $sql=mysqli_query($con,"SELECT * FROM clients where status='1'");
 	                        while($row=mysqli_fetch_array($sql)){
 	                        ?>
-                            <div class="card">
-                                <div class="card-header" id="headingOne<?php echo $row["id"]?>">
-                                    <h5 class="mb-0">
-                                        <a href="#" class="btn btn-link" data-toggle="collapse"
-                                            data-target="#collapseOne<?php echo $row["id"]?>" aria-expanded="true"
-                                            aria-controls="collapseOne">
-                                            <?php echo $row["question"]?>
-                                        </a>
-                                    </h5>
-                                </div>
-                                <div class="collapse show" id="collapseOne<?php echo $row["id"]?>"
-                                    aria-labelledby="headingOne<?php echo $row["id"]?>" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <?php echo $row["answer"]?>
-                                    </div>
-                                </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ts-team-wrapper">
+                            <div class="team-img-wrapper">
+                                <?php 
+                                            if(empty(($row["logo"]))){ ?>
+                                <img class="img-fluid" src="images/profile.jpg" alt="staff"
+                                    style="width:100%; height: 300px; " /> <?php
+                                            }else {
+                                            ?> 
+                                             <?php if (!empty($row["url"])){?>
+                                <a href="<?php echo $row["url"]?>" target="_blank">
+                                            
+                                            <img class="img-fluid" style="width:200px; height: 250px; "
+                                    src="images/clients/<?php echo md5($row['id']) ?>.<?php echo $row['logo'] ?>"
+                                    alt="clients">
+                                    </a>
+                                    <?php }else{?>
+                                        <img class="img-fluid" style="width:200px; height: 250px; "
+                                    src="images/clients/<?php echo md5($row['id']) ?>.<?php echo $row['logo'] ?>"
+                                    alt="clients">
+                                    <?php } ?>
+                                <?php }
+                                            ?>
                             </div>
-                            <?php } ?>
-                        </div>
-                        <!-- Accordion end -->
-                    </div>
-                    <!-- col end-->
-                    <div class="col-lg-4">
-                        <div class="help-box text-center">
-                            <div class="help mrb-40 ">
-                                <h2 class="column-title title-white">Want to Know More?</h2>
-                                <a class="btn btn-primary" href="contact.php">Contact Us</a>
+                            <div class="ts-team-content">
+                                <h3 class="team-name"><?php echo $row["client"]?></h3>
+                                <p class="team-designation"><?php echo $row["client"]?></p>
                             </div>
+                            <!-- Team content end-->
+                            <!-- <div class="team-social-icons">
+                                <?php echo $row["url"]?> </div> -->
+                            <!-- social-icons-->
                         </div>
+                        <!-- Team wrapper 1 end-->
                     </div>
-                    <!-- Col end-->
+                    <?php } ?>
+
                 </div>
-                <!-- Row end-->
+                <!-- Content row end-->
+                <div class="gap-60"></div>
             </div>
+            <!-- Container end-->
         </section>
 
         <!-- Footer start-->
@@ -135,7 +143,6 @@ $page='faq';
         <?php include ("includes/footer.php")?>
 
         <!-- Footer end-->
-
 
         <div class="back-to-top affix" id="back-to-top" data-spy="affix" data-offset-top="10">
             <button class="btn btn-primary" title="Back to Top"><i class="fa fa-angle-double-up"></i>

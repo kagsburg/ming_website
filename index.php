@@ -243,7 +243,7 @@ $page="home";
                         </div>
                         <div id="accordion" class="accordion-area">
                             <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM faqs limit 3");
+	                        $sql=mysqli_query($con,"SELECT * FROM faqs where status ='1' limit 3");
 	                        while($row=mysqli_fetch_array($sql)){
 	                        ?>
                             <div class="card">
@@ -272,7 +272,7 @@ $page="home";
                         <h2 class="column-title "><span>What They Said</span> Client Testimonials</h2>
                         <div class="owl-carousel owl-theme testimonial-slide owl-dark" id="testimonial-slide">
                             <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM testimonials");
+	                        $sql=mysqli_query($con,"SELECT * FROM testimonials where status='1'");
 	                        while($row=mysqli_fetch_array($sql)){
 	                        ?>
                             <div class="item" style="width: 100%">
@@ -284,7 +284,7 @@ $page="home";
                                         <img class="testimonial-thumb" src="images/profile.jpg" alt="testimonial" /> <?php
                                             }else {
                                             ?> <img class="testimonial-thumb"
-                                            src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
+                                            src="images/testi/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
                                             alt="testimonial">
                                         <?php }
                                             ?>
@@ -445,7 +445,7 @@ everything we do.</h2>
                             <h2 class="column-title "><span>Delivery & return solutions worldwide</span>Get a Quick
                                 Quote</h2>
                             <div class="quote-img">
-                                <img class="img-fluid" src="images/quote.png" alt="img">
+                                <img class="img-fluid" src="images/quote02.png" alt="img">
                             </div>
                         </div>
                         <!-- Quote form end-->
@@ -504,7 +504,7 @@ everything we do.</h2>
                 <div class="row">
                     <div class="col-sm-12 owl-carousel owl-theme text-center partners" id="partners-carousel">
                         <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM partners order by id");
+	                        $sql=mysqli_query($con,"SELECT * FROM partners where status ='1' order by id");
 	                        while($row=mysqli_fetch_array($sql)){
 	                     ?>
                         <figure class="item partner-logo">

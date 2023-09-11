@@ -4,7 +4,16 @@ include("db/config.php");
 if(!isset($_SESSION['user'])){
    header('Location:login');
       }
-$page = "portfolio";
+$page = "gallery";
+$id = $_GET['id'];
+
+$getAlbum = $db->query("SELECT * FROM photo_albums WHERE id='".$id."'");
+$album = mysqli_fetch_array($getAlbum);
+if (isset($_GET['del'])){
+    $id = $_GET['del'];
+    $update = $db->query("UPDATE `photo_ablum_images` SET `status`='0' WHERE id='".$id."'");
+    header('location: album_gallery?id='.$album['id'].'');
+}
 
 
 
@@ -21,7 +30,7 @@ $page = "portfolio";
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Portfolio Gallery</title>
+    <title><?php echo $album['title'] ?> Gallery</title>
     <link href="images/icon/favicon.ico" rel="icon">
 
     <script src="ckeditor/ckeditor.js"></script>
@@ -62,70 +71,60 @@ $page = "portfolio";
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Our Portfolio Gallery</h1>
+                        <h1 class="h3 mb-0 text-gray-800"><?php echo $album['title'] ?> Gallery</h1>
                         <a href="javascript.void(0)" data-toggle="modal" data-target="#addPortfolio" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas  fa-plus  fa-sm text-white-50"></i> Add to Portfolio Gallery</a>
+                                class="fas  fa-plus  fa-sm text-white-50"></i> Add to <?php echo $album['title'] ?> Album</a>
                     </div>
 
                     <?php 
-                        if (isset($_POST['submitGallery'])){
-                            $caption =mysqli_real_escape_string($db,trim($_POST['caption'])); 
-                            $project_id =mysqli_real_escape_string($db,trim($_POST['project_id'])); 
-                            $description =mysqli_real_escape_string($db,trim($_POST['description'])); 
-                            $status='1';
-                            foreach($_FILES['image']['name'] as $key=>$val){ 
-                                $image_name=$_FILES['image']['name'][$key];
-                                $image_size=$_FILES['image']['size'][$key];
-                                $image_temp=$_FILES['image']['tmp_name'][$key];
-                                $allowed_ext=array('jpg','jpeg','png','gif','');
-                                $ext=explode('.',$image_name);
-                                $image_ext=  strtolower(end($ext));
-                                $errors=array();
-                                if (in_array($image_ext,$allowed_ext)===false){
-                                $errors[]='File type not allowed';
-                                }
-                                if($image_size>10097152){
-                                $errors[]='Maximum size is 10Mb';
-                                }
-                                if(!empty($errors)){
-                                    foreach($errors as $error){ 
-                                    echo ' <div class="alert alert-danger alert-icon" role="alert">
-                                    <div class="alert-icon-content">
-                                        '.$error.'
-                                    </div>
-                                        </div>';
-                                    }
-                                    }else{
-                        
-                                        // Insert image content into database 
-                                        $db->query("INSERT INTO `gallery` (`caption`, `project_id`, `description`,`image`,`status`) 
-                                        VALUES ('".$caption."','".$project_id."','".$description."','".$image_ext."','".$status."')"); 
-                                        // get last created Id 
-                                        $last_id = $db->insert_id;
-                                        $image_file1=md5($last_id).'.'.$image_ext;
-                                        move_uploaded_file($image_temp,'../images/gallery/'.$image_file1);
-
-                                        echo '<div class="alert alert-success alert-icon" role="alert">
-                                        <div class="alert-icon-content">
-                                            <h6 class="alert-heading">Success</h6>
-                                            New Gallery Photo Added Successfully.
-                                        </div>
-                                    </div>';
-                                    }
-
-                            }
-                            
-                            
+                        if(isset($_POST["submitGallery"])){ 
+                            $price ='';// mysqli_real_escape_string($db,trim($_POST['price'])); 
+                            $name = mysqli_real_escape_string($db,trim($_POST['title']));
                            
-                            
-                        }
-                        if(isset($_POST["updatePortfolio"])){
+                            $image_name=$_FILES['image']['name'];
+                            $image_size=$_FILES['image']['size'];
+                            $image_temp=$_FILES['image']['tmp_name'];
+                            $allowed_ext=array('jpg','jpeg','png','gif','');
+                            $ext=explode('.',$image_name);
+                            $image_ext=  strtolower(end($ext));
+                            $status='1';
+                            $errors=array();
+                            if (in_array($image_ext,$allowed_ext)===false){
+                            $errors[]='File type not allowed';
+                            }
+                            if($image_size>10097152){
+                            $errors[]='Maximum size is 10Mb';
+                            }
+                            if(!empty($errors)){
+                            foreach($errors as $error){ 
+                            echo ' <div class="alert alert-danger alert-icon" role="alert">
+                            <div class="alert-icon-content">
+                                '.$error.'
+                            </div>
+                                </div>';
+                            }
+                            }else{
+                                
+                                    // Insert image content into database 
+                                    $insert = $db->query("INSERT INTO `photo_ablum_images`(`caption`, `album_id`,`image`,`status`) 
+                                    VALUES ('".$name."','".$album['id']."','".$image_ext."','".$status."')"); 
+                                    // get last created Id 
+                                    $last_id = $db->insert_id;
+                                    $image_file1=md5($last_id).'.'.$image_ext;
+                                    move_uploaded_file($image_temp,'../images/albums/photos/'.$image_file1);
+
+                                    echo '<div class="alert alert-success alert-icon" role="alert">
+                                    <div class="alert-icon-content">
+                                        <h6 class="alert-heading">Success</h6>
+                                        New Photo Added to Album Successfully.
+                                    </div>
+                                </div>';
+                            }
+                        } 
+                        if(isset($_POST["updateGallery2"])){
                             $id = mysqli_real_escape_string($db,trim($_POST['id']));
-                            $project_manager = mysqli_real_escape_string($db,trim($_POST['project_manager'.$id]));
-                            $title = mysqli_real_escape_string($db,trim($_POST['title'.$id]));
-                            $location = mysqli_real_escape_string($db,trim($_POST['location'.$id]));
-                            $service = mysqli_real_escape_string($db,trim($_POST['service'.$id]));
-                            $client = mysqli_real_escape_string($db,trim($_POST['client'.$id]));
+                            $price ='';// mysqli_real_escape_string($db,trim($_POST['price'.$id]));
+                            $name = mysqli_real_escape_string($db,trim($_POST['name'.$id]));
                             $description = mysqli_real_escape_string($db,trim($_POST['description'.$id]));
 
                             if (isset($_FILES['image'.$id]) && !empty($_FILES['image'.$id]) && $_FILES['image'.$id]['size']!=0){
@@ -153,26 +152,24 @@ $page = "portfolio";
                                         }
                                 }else{
                                     // update with image content 
-                                    $update =$db->query("UPDATE projects SET title='$title', project_manager='$project_manager', location='$location', service='$service', client='$client', description='$description', image='$image_ext' WHERE id=$id")
-                                    or die(mysqli_error($db));
+                                    $update = $db->query("UPDATE `photo_albums` SET `title`='".$name."',`descrption`='".$description."',`image`='".$image_ext."' WHERE id='".$id."'");
                                     $image_file1=md5($id).'.'.$image_ext;
-                                    move_uploaded_file($image_temp,'../images/projects/'.$image_file1);
+                                    move_uploaded_file($image_temp,'../images/albums/'.$image_file1);
                                     echo '<div class="alert alert-success alert-icon" role="alert">
                                                     <div class="alert-icon-content">
                                                     <h6 class="alert-heading">Success</h6>
-                                                    Portfolio Updated Successfully
+                                                    Album Updated Successfully
                                                 </div>
                                             </div>';
                                 }
 
                             }else{
-                                // update without image content
-                                $insert = $db->query("UPDATE projects SET title='$title', project_manager='$project_manager', location='$location', service='$service', client='$client', description='$description' WHERE id=$id");  
-
+                                // update without image content 
+                                $update = $db->query("UPDATE `photo_albums` SET `title`='".$name."',`descrption`='".$description."' WHERE id='".$id."'");
                                 echo '<div class="alert alert-success alert-icon" role="alert">
                                                 <div class="alert-icon-content">
                                                 <h6 class="alert-heading">Success</h6>
-                                                Portfolio Updated Successfully
+                                                Album Updated Successfully
                                             </div>
                                         </div>';
                             }
@@ -183,15 +180,14 @@ $page = "portfolio";
                     <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Our Portfolio Gallery</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $album['title'] ?> Album</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table " id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">Project Title</th>
-                                            <th>Client</th>
+                                            <th colspan="2">Caption</th>
                                             <!-- <th>Service</th> -->
                                             <th>Action</th>
                                         </tr>
@@ -199,34 +195,33 @@ $page = "portfolio";
                                     <tbody>
                                         
                                     <?php
-	                                        $sql=mysqli_query($db,"SELECT DISTINCT projects.id, projects.title,projects.image ,projects.client from gallery left join projects on gallery.project_id=projects.id");
+                                    $album_id = $album['id'];
+	                                        $sql=mysqli_query($db,"SELECT * from photo_ablum_images where status ='1' and album_id ='$album_id' order by id desc");
                                             if (mysqli_num_rows($sql) == 0) {
                                                 echo '<tr><td colspan="8">No data available</td></tr>';
                                             } else{
 	                                        while($row=mysqli_fetch_array($sql)){                                               
 	                                    ?>
                                             <tr>
-                                            <td><img class="img-profile rounded-circle" src="../images/projects/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td>
-                                                <td><?php echo $row["title"]; ?></td>
-                                                <td><?php echo $row["client"]; ?></td>
-                                                <!-- <td><?php echo $row3["name"]; ?></td> -->
+                                            <td><img class="img-profile rounded-circle" src="../images/albums/photos/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td>
+                                                <td><?php echo $row["caption"]; ?></td>
                                                 <td>
-                                                <!-- <a href="javascript.void(0)" data-toggle="modal" data-target="#editPort<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
+                                                    <!-- <a href="javascript.void(0)" data-toggle="modal" data-target="#editAlbum<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                     <span class="text">Edit</span>
                                                 </a> -->
-                                                <a href="project_gallery?id=<?php echo $row['id'];?>"  class="btn btn-secondary btn-icon-split btn-sm">
+                                                    <a href="album_gallery?id=<?php echo $row['id'];?>&del=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete?')"   class="btn btn-danger btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
-                                                        <i class="fas fa-eye"></i>
+                                                        <i class="fas fa-trash"></i>
                                                     </span>
-                                                    <span class="text">View Photos</span>
+                                                    <span class="text">Remove</span>
                                                 </a>
                                                 </td>
                                             </tr>
                                              <!-- Edit Service Modal-->
-                                             <div class="modal fade" id="editPort<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                             <div class="modal fade" id="editAlbum<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog modal-lg" role="document">
                                                         <div class="modal-content">
@@ -241,50 +236,19 @@ $page = "portfolio";
                                                                                 enctype="multipart/form-data"><input type="hidden" name="id" id="id"
                                                                                     value=<?php echo isset($row['id'])==true?$row['id']:""; ?> />
                                                                                 <div class="form-group">
-                                                                                    <label for="title" class="control-label mb-1">Project Title</label>
-                                                                                    <input id="title" name="title<?php echo $row['id'] ?>" type="text" class="form-control"
+                                                                                    <label for="title" class="control-label mb-1"> Title</label>
+                                                                                    <input id="title" name="name<?php echo $row['id'] ?>" type="text" class="form-control"
                                                                                         <?php echo "value='".$row['title']."'"; ?>>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-6">
-                                                                                        <div class="form-group">
-                                                                                            <label for="project_manager" class="control-label mb-1">Project
-                                                                                                Manager</label>
-                                                                                            <input id="project_manager" name="project_manager<?php echo $row['id'] ?>" type="text"
-                                                                                                class="form-control"
-                                                                                                <?php echo "value='".$row['project_manager']."'"; ?>>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <div class="form-group">
-                                                                                            <label for="client" class="control-label mb-1">Client</label>
-                                                                                            <input id="client" name="client<?php echo $row['id'] ?>" type="text"
-                                                                                                class="form-control"
-                                                                                                <?php echo "value='".$row['client']."'"; ?>>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-6">
-                                                                                        <div class="form-group">
-                                                                                            <label for="location"
-                                                                                                class="control-label mb-1">Location</label>
-                                                                                            <input id="location" name="location<?php echo $row['id'] ?>" type="text"
-                                                                                                class="form-control"
-                                                                                                <?php echo "value='".$row['location']."'"; ?>>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label for="description">Description</label>
 
-                                                                                    <textarea id="description" name="description<?php echo $row['id'] ?>" class="ckeditor" cols="70"><?php echo $row['description']; ?></textarea>
+                                                                                    <textarea id="description" name="description<?php echo $row['id'] ?>" class="ckeditor" cols="70"><?php echo $row['descrption']; ?></textarea>
                                                                                 </div>
 
                                                                                 <div class="row form-group">
                                                                                     <div class=" col col-md-3"><label for="image"
-                                                                                            class=" form-control-label">Upload New
+                                                                                            class=" form-control-label">Upload Cover
                                                                                             Photo</label>
                                                                                     </div>
                                                                                     <div class="col-12 col-md-9"> <input type="file" name="image<?php echo $row['id'] ?>">
@@ -292,10 +256,10 @@ $page = "portfolio";
                                                                                 </div>
 
                                                                                 <div>
-                                                                                    <button type="submit" name="updatePortfolio"
+                                                                                    <button type="submit" name="updateGallery2"
                                                                                         class="btn btn-lg btn-success btn-block">
                                                                                         <i class="fa fa-plus fa-lg"></i>&nbsp;
-                                                                                        <span id="payment-button-amount">Edit Project Details</span>
+                                                                                        <span id="payment-button-amount">Edit ALbum Details</span>
                                                                                         <span id="payment-button-sending"
                                                                                             style="display:none;">Sending…</span>
                                                                                     </button>
@@ -328,7 +292,7 @@ $page = "portfolio";
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"> Add New Photos</h5>
+                            <h5 class="modal-title" id="exampleModalLabel"> Add New Photo to Album</h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -340,52 +304,24 @@ $page = "portfolio";
                                                         class=" form-control-label">Caption:</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="caption"
-                                                        name="caption" placeholder="Caption for the Image"
+                                                        name="title" placeholder="Caption for the Image"
                                                         class="form-control">
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
-                                                <div class="col col-md-2"><label for="project_id"
-                                                        class=" form-control-label">Project:</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select class="form-control" id="project_id" name="project_id"
-                                                        required="required">
-                                                        <option selected disabled hidden>Choose
-                                                            Project
-                                                        </option>
-                                                        <?php
-                                                            $sql2=mysqli_query($db,"SELECT * FROM projects order by date_added desc");
-                                                            while($row2=mysqli_fetch_array($sql2)){
-                                                                echo "<option value='".$row2['id']."'>".$row2['title']."</option>";
-                                                            }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="row form-group">
                                                 <div class="col col-md-2"><label for="image"
-                                                        class=" form-control-label">Upload New
+                                                        class=" form-control-label">Upload Cover
                                                         Photo</label>
                                                 </div>
-                                                <div class="col-12 col-md-9"> <input type="file" name="image[]" required
-                                                        multiple> <small>*You can select multiple photos</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-2"><label for="description"
-                                                        class=" form-control-label">Description:</label>
-                                                </div>
-                                                <div class="col-12 col-md-12"><textarea id="description"
-                                                        name="description" class="ckeditor" cols="70" id="editor1"></textarea>
+                                                <div class="col-12 col-md-9"> <input type="file" name="image" required
+                                                        > 
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <button class=" btn btn-dark w-100" type="submit" name="submitGallery">Add
-                                                    Photo(s) to Project Gallery</button>
+                                                    Album</button>
                                             </div>
                                         </form>
                         </div>

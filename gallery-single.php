@@ -1,13 +1,10 @@
 <?php
-// include("db/DB.php");
-// $db = new DB();
 include ("includes/config.php");
-$page='service';
+$page='media';
 $id = $_GET['id'];
-
-$sql = mysqli_query($con, "SELECT * FROM projects WHERE id = '$id'");
-$row = mysqli_fetch_array($sql);
-$data = $row;
+$sql = "SELECT * FROM photo_albums WHERE id='$id'";
+$result = mysqli_query($con,$sql);
+$row = mysqli_fetch_array($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +15,7 @@ $data = $row;
     ==================================================
     -->
     <meta charset="utf-8">
-    <title>Work Details</title>
+    <title>Minagrico - <?php echo $row['title'];?> Gallery</title>
     <!--
     Mobile Specific Metas
     ==================================================
@@ -31,7 +28,6 @@ $data = $row;
     -->
 
     <link href="images/icon/favicon.ico" rel="icon">
-
 
     <!-- Bootstrap-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -65,19 +61,20 @@ $data = $row;
     <div class="body-inner">
 
         <div class="site-top-2">
-            <?php include ("includes/navbar.php")?>
+           <?php include ("includes/navbar.php")?>
             <!-- Header end-->
         </div>
 
-        <div class="banner-area" id="banner-area" style="background-image:url(images/porfolio.jpg);">
+
+        <div class="banner-area" id="banner-area" style="background-image:url(images/gallerybanner.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
-                            <h1 class="banner-title"><?php echo $data['title']; ?></h1>
+                            <h1 class="banner-title"><?php echo $row['title'];?> Gallery</h1>
                             <ol class="breadcrumb">
                                 <li><a href="index">Home</a></li>
-                                <li><a href="portfolio">Works</a></li>
+                                <li><a href="#"> <?php echo $row['title'];?> Gallery</a></li>
                             </ol>
                         </div>
                     </div>
@@ -88,12 +85,16 @@ $data = $row;
             <!-- Container end-->
         </div>
         <!-- Banner area end-->
-
         <section class="single-project" id="single-project">
             <div class="container">
+            <div class="row text-center">
+                    <div class="col-md-12">
+                        <h2 class="section-title"><span>View Details of Album</span><?php echo $row['title'];?> Gallery</h2>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-8">
-                        <h3 class="column-title"><?php echo $data['title']; ?></h3>
+                        <!-- <h3 class="column-title"><?php echo $data['title']; ?></h3> -->
                         <div class="carousel slide " id="main-slide" data-ride="carousel">
                             <!-- Indicators-->
                             <ol class="carousel-indicators visible-lg visible-md">
@@ -104,25 +105,22 @@ $data = $row;
                             <!-- Indicators end-->
                             <!-- Carousel inner-->
                             <div class="carousel-inner">
-                                <div class="carousel-item active"
-                                    style="background-image:url(images/projects/<?php echo md5($data['id']) ?>.<?php echo $data['image'] ?>);">
-                                </div>
                                 <?php 
                                 $count = 0;
-	                                        $sql=mysqli_query($con,"SELECT gallery.* from gallery inner join projects on gallery.project_id=projects.id where projects.id='".$data['id']."'");
+                                $sql=mysqli_query($con,"SELECT * from photo_ablum_images where status ='1' and album_id ='$id' order by id desc");
+                                
                                             if (mysqli_num_rows($sql)>0) {
-                                                while ($row=mysqli_fetch_array($sql)) {
+                                                while($row2=mysqli_fetch_array($sql)){
                                                     $count++;
-                                                    $image=$row['image'];
-                                                    $id=$row['id'];
+                                                    $image=$row2['image'];
                                                     ?>
-                                <div class="carousel-item"
-                                    style="background-image:url(images/gallery/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>);">
+                                <div class="carousel-item <?php if ($count == 1) echo "active" ?>"
+                                    style="background-image:url(images/albums/photos/<?php echo md5($row2['id']) ?>.<?php echo $row2['image'] ?>);">
                                   <!-- show caption -->
                                     <div class="carousel-caption">
                                         <!-- <h2 class="carousel-title"><?php echo $data['title']; ?></h2>
                                         <h4 class="carousel-subtitle"><?php echo $data['location']; ?></h4> -->
-                                        <p class="carousel-desc"><?php echo $row['caption']; ?></p>
+                                        <p class="carousel-desc"><?php echo $row2['caption']; ?></p>
                                     </div>
                                     <!-- caption -->
                                 </div>
@@ -143,68 +141,16 @@ $data = $row;
                                 <span><i class="fa fa-angle-right"></i></span></a>
                         </div>
                         <!-- Carousel end-->
-                        <div class="tag"><span>Location: </span><?php echo $data['location']; ?></div>
                     </div>
                     <!-- col end -->
                     <div class="col-lg-4 project-right-side">
                         <div class="single-project-content">
-                            <h3> Works Details</h3>
-                            <?php echo $data['description']; ?>
+                            <!-- <h3> Works Details</h3> -->
+                            <?php echo $row['descrption']; ?>
                         </div>
                         <!-- project content end -->
-                        <div id="accordion" class="project-accordion">
-                            <div class="card">
-                                <div class="card-header" id="headingOne">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link project-btn" data-toggle="collapse"
-                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <span> Client </span>
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div class="collapse show" id="collapseOne" aria-labelledby="headingOne"
-                                    data-parent="#accordion">
-                                    <div class="card-body">
-                                        <p><?php echo $data['client']; ?> </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="headingTwo">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link project-btn collapsed" data-toggle="collapse"
-                                            data-target="#collapseTwo" aria-expanded="false"
-                                            aria-controls="collapseTwo">
-                                            <span> Works Manager </span>
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo"
-                                    data-parent="#accordion">
-                                    <div class="card-body">
-                                        <p><?php echo $data['project_manager']; ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="headingThree">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link project-btn collapsed" data-toggle="collapse"
-                                            data-target="#collapseThree" aria-expanded="false"
-                                            aria-controls="collapseThree">
-                                            <span> Service provided </span>
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div class="collapse" id="collapseThree" aria-labelledby="headingThree"
-                                    data-parent="#accordion">
-                                    <div class="card-body">
-                                    <p><?php echo $data['service']; ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="portfolio" class="btn-block btn btn-primary">View More Works</a>
+                        
+                        <a href="gallery" class="btn-block btn btn-primary">View Gallery</a>
 
                     </div>
                     <!-- col end -->
@@ -213,6 +159,7 @@ $data = $row;
             </div>
             <!-- main container end -->
         </section>
+
 
         <!-- Footer start-->
 

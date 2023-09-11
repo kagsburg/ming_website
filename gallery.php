@@ -92,15 +92,28 @@ $page='media';
                 </div>
                 <div class="row">
                     <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM gallery where status='1' order by id desc");
+	                        $sql=mysqli_query($con,"SELECT * FROM photo_albums where status='1' order by id desc");
 	                        while($row=mysqli_fetch_array($sql)){
 	                    ?>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="gallery-img">
-                            <img class="img-fluid"
-                                src="images/gallery/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
-                                alt="">
+                   <div class="col-lg-4 ">
+                        <div class="latest-post post-large project-post-large">
+                            <div class="latest-post-media project-post-media">
+                                <a class="latest-post-img" href="project-single.php">
+                                    <img class="img-fluid"
+                                        src="images/albums/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
+                                        style="height: 230px; width: 100%;" alt="img">
+                                </a>
+
+                                <div class="post-body project-body project-post-body">
+                                    <a class="post-cat" href="project-single.php"><?php echo $row["title"]; ?></a>
+                                    <a class="btn btn-primary" href="gallery-single?id=<?php echo $row["id"]?>">View Photos
+                                        </a>
+                                </div>
+                                <!-- Post body end-->
+                            </div>
+                            <!-- Post media end-->
                         </div>
+                        <!-- Latest post end-->
                     </div>
                     <?php } ?>
                     <!--  item 1 end -->

@@ -74,7 +74,7 @@
                            
                             $details = mysqli_real_escape_string($db,trim($_POST['details']));
                             $category = mysqli_real_escape_string($db, trim($_POST['category']));
-                            $tags = mysqli_real_escape_string($db, trim($_POST['tags']));
+                            $tags ='';// mysqli_real_escape_string($db, trim($_POST['tags']));
                             
                             $image_name=$_FILES['image']['name'];
                             $image_size=$_FILES['image']['size'];
@@ -121,7 +121,7 @@
                             $id = mysqli_real_escape_string($db,trim($_POST['id']));
                             $title =mysqli_real_escape_string($db,trim($_POST['title'.$id]));
                             $details = mysqli_real_escape_string($db,trim($_POST['details'.$id]));
-                            $tags = mysqli_real_escape_string($db, trim($_POST['tags'.$id]));
+                            $tags ='';// mysqli_real_escape_string($db, trim($_POST['tags'.$id]));
                             $category = mysqli_real_escape_string($db, trim($_POST['category'.$id]));
 
                             if (isset($_FILES['image'.$id]) && !empty($_FILES['image'.$id]) && $_FILES['image'.$id]['size']!=0){
@@ -268,7 +268,7 @@
                                                                             </select>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row form-group">
+                                                                    <!-- <div class="row form-group">
                                                                         <div class="col col-md-2"><label for="tags"
                                                                                 class=" form-control-label">Tags:</label>
                                                                         </div>
@@ -276,7 +276,7 @@
                                                                         <input type="text" id="tags" name="tags<?php echo $row['id']; ?>" value="<?php echo $row['tags'] ?>"
                                                                                 placeholder="Tags of the News Article" class="form-control" >
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
 
                                                                     <div class="row form-group">
                                                                         <div class="col col-md-2"><label for="image"
@@ -361,7 +361,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
+                                            <!-- <div class="row form-group">
                                                 <div class="col col-md-2"><label for="tags"
                                                         class=" form-control-label">Tags:</label>
                                                 </div>
@@ -369,7 +369,7 @@
                                                 <input type="text" id="tags" name="tags"
                                                         placeholder="Tags of the News Article" class="form-control" >
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="image"

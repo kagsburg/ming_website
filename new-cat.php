@@ -1,17 +1,7 @@
 <?php
 include ("includes/config.php");
 $page='media';
-$id=$_GET['id'];
-
-$sql=mysqli_query($con,"SELECT * FROM news WHERE id='$id'");
-$row=mysqli_fetch_array($sql);
-$data = $row;
-$getauthor = mysqli_query($con,"SELECT * FROM users where user_id='".$row['admin_id']."'");
-$author = mysqli_fetch_array($getauthor);
-$data['author'] = $author['fullnames'];
-$getcategory = mysqli_query($con,"SELECT * FROM category where category_id='".$row['category_id']."'");
-$category = mysqli_fetch_array($getcategory);
-$data['category'] = $category['category'];
+$id = $_GET['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +12,7 @@ $data['category'] = $category['category'];
     ==================================================
     -->
     <meta charset="utf-8">
-    <title> News Details</title>
+    <title>Minagrico - News</title>
     <!--
     Mobile Specific Metas
     ==================================================
@@ -56,6 +46,7 @@ $data['category'] = $category['category'];
     <link rel="stylesheet" href="css/style.css">
     <!-- Responsive styles-->
     <link rel="stylesheet" href="css/responsive.css">
+
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file.-->
     <!--if lt IE 9
     script(src='js/html5shiv.js')
@@ -77,7 +68,7 @@ $data['category'] = $category['category'];
                 <div class="row justify-content-center">
                     <div class="col">
                         <div class="banner-heading">
-                            <h1 class="banner-title"><?php echo $data['title']; ?></h1>
+                            <h1 class="banner-title">News</h1>
                             <ol class="breadcrumb">
                                 <li><a href="index">Home</a></li>
                                 <li><a href="news">News</a></li>
@@ -95,83 +86,67 @@ $data['category'] = $category['category'];
         <section class="main-container" id="main-container">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 ">
-
-                        <div class="post-content">
-                            <div class="post-media post-image ">
-                                <img class="img-fluid" src="
-                                images/news/<?php echo md5($data['id']) ?>.<?php echo $data['image'] ?>"
-                                    class="img-responsive" alt="">
+                    <div class="col-lg-8">
+                        <div class="row">
+                        <?php
+	                        $sql=mysqli_query($con,"SELECT * FROM news where status='1' and category_id='$id'order by id desc");
+	                        while($row=mysqli_fetch_array($sql)){
+	                     ?>
+                        <div class=" col-lg-6 post news-post">
+                            <div class="post-media post-image">
+                                <img class="img-fluid"
+                                    src="images/news/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>"
+                                    style="height: 300px; " width="300px" alt="img">
                             </div>
-
-                            <div class="post-body">
-                                <div class="entry-header">
-                                    <div class="post-meta"><a href="new-cat?id=<?php echo $category['category_id']?>"><span class="post-cat"><i class="icon icon-folder"></i>
-                                                <?php echo $data["category"]; ?></span></a>
-                                        <!-- <span class="post-tag"><i class="icon icon-tag"></i><a>
-                                                <?php echo $data["tags"]; ?></a></span> -->
+                            <div class="post-body clearfix">
+                                <!-- Post meta left-->
+                                <div class="post-content">
+                                    <div class="entry-header">
+                                        <!-- <div class="post-meta"><span class="post-cat"><i
+                                                    class="icon icon-folder"></i><a>
+                                                    <?php echo $row["category"]; ?></a></span>
+                                            <span class="post-tag"><i class="icon icon-tag"></i>
+                                                <?php echo $row["tag"]; ?></span>
+                                        </div> -->
+                                        <h2 class="entry-title"><a
+                                                href="news-single?id=<?php echo $row["id"]?>"><?php echo $row["title"]; ?></a>
+                                        </h2>
                                     </div>
-                                    <h2 class="entry-title"><a>
-                                            <?php echo $data["title"]; ?></a></h2>
-                                </div>
-                                <!-- header end-->
-
-                                <div class="entry-content">
-
-                                    <?php echo $data["details"]; ?>
-
-                                </div>
-
-                                <div class="tags-area clearfix">
-                                    <div class="post-tags pull-left">
-                                        <a><i class="fa fa-user"></i> Written
-                                            by <?php 
-                                            
-                                            echo $data["author"]; ?></a>
+                                    <!-- header end-->
+                                    <div class="entry-content">
+                                        
                                     </div>
-                                    <!-- <div class="share-items pull-right">
-                                        <ul class="post-social-icons unstyled">
-                                            <li class="social-icons-head">Share:</li>
-                                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                        </ul>
-                                    </div> -->
+                                    <div class="post-footer "><a class="btn btn-primary"
+                                            href="news-single?id=<?php echo $row["id"]?>">Read
+                                            More ...</a></div>
                                 </div>
-
-                            </div><!-- post-body end -->
-                        </div><!-- post content end -->
-
-                        <!-- <div class="author-box">
-                            <div class="author-img pull-left">
-                                <img src="images/team/team1.jpg" alt="">
+                                <!-- Post content right-->
                             </div>
-                            <div class="author-info">
-                                <h3>Elton Themen<span>Site Engineer</span></h3>
-                                <p>Lisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                    enim ad vene minim veniam, quis nostrud exercitation nisi ex ea commodo.</p>
-                                <p class="author-url">Website: <span><a href="#">http://www.cornike.com</a></span></p>
+                            <!-- post-body end-->
+                        </div>
+                        <?php } ?>
+                        </div>
 
-                            </div>
-                        </div> -->
-                        <!-- Author box end -->
-
-
-
-                    </div><!-- Content Col end -->
-
+                        <!-- 1st post end-->
+                    </div>
+                    <!-- Content Col end-->
                     <div class="col-lg-4">
-                        <div class="sidebar sidebar-left">
+                        <div class="sidebar sidebar-right">
+                            <!-- <div class="widget widget-search">
+                                <div class="input-group" id="search">
+                                    <input class="form-control" placeholder="Search" type="search"><span
+                                        class="input-group-btn"><i class="fa fa-search"></i></span>
+                                </div>
+                            </div> -->
                             <div class="widget recent-posts">
                                 <h3 class="widget-title">Popular Posts</h3>
                                 <ul class="unstyled clearfix">
                                     <?php
-	                                    $sql=mysqli_query($con,"SELECT * FROM news where status ='1' and id !='$id' ORDER BY id DESC LIMIT 5");
+	                                    $sql=mysqli_query($con,"SELECT * FROM news where status='1' and category_id!='$id' order by id asc limit 5");
 	                                    while($row=mysqli_fetch_array($sql)){
                                             $getauthor = mysqli_query($con,"SELECT * FROM users where user_id='".$row['admin_id']."'");
                                             $author = mysqli_fetch_array($getauthor);
-                                            $row['author'] = $author['fullnames'];
+
 	                                 ?>
                                     <li class="media">
                                         <div class="media-left media-middle">
@@ -181,8 +156,8 @@ $data['category'] = $category['category'];
                                         <div class="media-body media-middle"><span class="post-date"><i
                                                     class="icon icon-calendar-full"></i><a><?php echo $row["date_added"]?></a></span>
                                             <h4 class="entry-title"><a
-                                                    href="news-single.php?id=<?php echo $row["id"]?>"><?php echo $row["title"]?></a>
-                                                <small>By <?php echo $row["author"]?></small>
+                                                    href="news-single?id=<?php echo $row["id"]?>"><?php echo $row["title"]?></a>
+                                                <small>By <?php echo $author["fullnames"]?></small>
                                             </h4>
                                         </div>
                                         <div class="clearfix"></div>

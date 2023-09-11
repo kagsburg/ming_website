@@ -68,7 +68,7 @@ $page = "products";
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Our Products </h1>
                         <a href="javascript.void(0)" data-toggle="modal" data-target="#addService" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-plus fa-sm text-white-50"></i> Add Services </a>
+                                class="fas fa-plus fa-sm text-white-50"></i> Add Product </a>
                     </div>                   
                         <?php 
                                     if(isset($_POST["submitNew"])){ 

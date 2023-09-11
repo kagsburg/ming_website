@@ -128,7 +128,7 @@ $id = $_GET['id'];
                     <!-- Col end -->
                     <?php 
 
-                        $sql=mysqli_query($con,"SELECT * FROM services where id='$id' where status='1'");
+                        $sql=mysqli_query($con,"SELECT * FROM services where id='$id' and status='1'");
                         $row=mysqli_fetch_array($sql);
                         $data = $row;
                     ?>

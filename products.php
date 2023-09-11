@@ -96,7 +96,7 @@ $page='service';
                     <!-- Title row end-->
                     <div class="row">
                         <?php
-	                        $sql=mysqli_query($con,"SELECT * FROM products where status = '1'  order by id desc limit 10");
+	                        $sql=mysqli_query($con,"SELECT * FROM products where status = '1'  order by id desc");
 	                        while($row=mysqli_fetch_array($sql)){
 	                    ?>
                         <div class="col-lg-4 col-md-12">
@@ -108,8 +108,9 @@ $page='service';
                                 </div>
                                 <div class="ts-service-content text-center">
                                     <h3 class="service-title"><?php echo $row["name"]; ?></h3>
-                                    <p><a class="link-more" href="product-single?id=<?php echo $row["id"]?>">Read
-                                            More<i class="icon icon-right-arrow2"></i></a></p>
+                                    <!-- href="product-single?id=<?php echo $row["id"]?>" -->
+                                    <p><span class="link-more" >TSHS <?php echo number_format($row["price"]); ?></span></p>
+                                            
                                 </div>
                             </div>
                             <!-- Service1 end-->

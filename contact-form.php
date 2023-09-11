@@ -6,8 +6,8 @@ $result = mysqli_query($con,$sql);
 if(!$result){
     die("Couldn't enter data: ". mysqli_error($con));
 }
-
-header('Location: index.php');
+$_SESSION['msg']="Thank you for contacting us. We will get back to you soon.";
+header('Location: contact');
 
 $mysqli->close();
 ?>

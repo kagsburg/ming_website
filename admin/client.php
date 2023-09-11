@@ -3,12 +3,12 @@ include("db/config.php");
  if(!isset($_SESSION['user'])){
     header('Location:login');
        }
- $page = "testimonials";
+ $page = "clients";
 
       if (isset($_GET['del'])) {
         $id = $_GET['del'];
-        $update = $db->query("UPDATE `testimonials` SET `status`='0' WHERE id='".$id."'");
-        header('location: testimonials');
+        $update = $db->query("UPDATE `clients` SET `status`='0' WHERE id='".$id."'");
+        header('location: client');
     }
 ?>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ include("db/config.php");
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Testimonials</title>
+    <title>Clients</title>
     <link href="images/icon/favicon.ico" rel="icon">
     <!-- Fontfaces CSS-->
     <script src="ckeditor/ckeditor.js"></script>
@@ -64,18 +64,17 @@ include("db/config.php");
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Our Testimonials </h1>
+                        <h1 class="h3 mb-0 text-gray-800">Our Clients </h1>
                         <a href="javascript.void(0)" data-toggle="modal" data-target="#addPortfolio" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas  fa-plus  fa-sm text-white-50"></i> Add New Testimonial</a>
+                                class="fas  fa-plus  fa-sm text-white-50"></i> Add New Clients</a>
                     </div>
 
                     <?php 
                         if (isset($_POST['submitPartner'])){
-                            $website =mysqli_real_escape_string($db,trim($_POST['name'])); 
-                            $company =mysqli_real_escape_string($db,trim($_POST['title']));
-                            $testimony =mysqli_real_escape_string($db,trim($_POST['details']));
+                            $website =mysqli_real_escape_string($db,trim($_POST['website'])); 
+                            $company =mysqli_real_escape_string($db,trim($_POST['company']));
                             
-                            if (isset($_FILES['image']) && !empty($_FILES['image']) && $_FILES['image']['size']!=0){
+                            
                             $image_name=$_FILES['image']['name'];
                             $image_size=$_FILES['image']['size'];
                             $image_temp=$_FILES['image']['tmp_name'];
@@ -100,39 +99,25 @@ include("db/config.php");
                             }
                             }else{
                                  // Insert image content into database 
-                                    $insert = $db->query("INSERT INTO `testimonials`(`name`, `title`, `testimony`,`image`,`status`) 
-                                    VALUES ('".$website."','".$company."','".$testimony."','".$image_ext."','".$status."')"); 
+                                    $insert = $db->query("INSERT INTO `clients`(`url`, `client`, `logo`,`status`) VALUES ('".$website."','".$company."','".$image_ext."','".$status."')"); 
              
                                                 // get last created Id 
                                                 $last_id = $db->insert_id;
                                                 $image_file1=md5($last_id).'.'.$image_ext;
-                                                move_uploaded_file($image_temp,'../images/testi/'.$image_file1);  
+                                                move_uploaded_file($image_temp,'../images/clients/'.$image_file1);
+
                                                 echo '<div class="alert alert-success alert-icon" role="alert">
                                                 <div class="alert-icon-content">
                                                     <h6 class="alert-heading">Success</h6>
-                                                    New Testimonial Added Successfully.
+                                                    New Client Added Successfully.
                                                 </div>
-                                            </div>';                                            
+                                            </div>';
                             }
-                        }else {
-                            $image_ext='';
-                            $status='1';
-                            // Insert image content into database 
-                            $insert = $db->query("INSERT INTO `testimonials`(`name`, `title`, `testimony`,`image`,`status`) 
-                            VALUES ('".$website."','".$company."','".$testimony."','".$image_ext."','".$status."')");     
-                             echo '<div class="alert alert-success alert-icon" role="alert">
-                             <div class="alert-icon-content">
-                                 <h6 class="alert-heading">Success</h6>
-                                 New Testimonial Added Successfully.
-                             </div>
-                         </div>';
-                        }
                         }
                         if(isset($_POST["updatePartner"])){
                             $id = mysqli_real_escape_string($db,trim($_POST['id']));
-                            $website =mysqli_real_escape_string($db,trim($_POST['name'.$id])); 
-                            $company =mysqli_real_escape_string($db,trim($_POST['title'.$id]));
-                            $testimony =mysqli_real_escape_string($db,trim($_POST['details'.$id]));
+                            $website =mysqli_real_escape_string($db,trim($_POST['website'.$id])); 
+                            $company =mysqli_real_escape_string($db,trim($_POST['company'.$id]));
 
                             if (isset($_FILES['image'.$id]) && !empty($_FILES['image'.$id]) && $_FILES['image'.$id]['size']!=0){
                                 $image_name=$_FILES['image'.$id]['name'];
@@ -159,26 +144,26 @@ include("db/config.php");
                                         }
                                 }else{
                                     // update with image content 
-                                    $update =$db->query("UPDATE testimonials SET name='$website', title='$company',image='$image_ext',testimony='$testimony' WHERE id=$id")
+                                    $update =$db->query("UPDATE clients SET url='$website', client='$company',logo='$image_ext' WHERE id=$id")
                                     or die(mysqli_error($db));
                                     $image_file1=md5($id).'.'.$image_ext;
-                                    move_uploaded_file($image_temp,'../images/testi/'.$image_file1);
+                                    move_uploaded_file($image_temp,'../images/clients/'.$image_file1);
                                     echo '<div class="alert alert-success alert-icon" role="alert">
                                                     <div class="alert-icon-content">
                                                     <h6 class="alert-heading">Success</h6>
-                                                    Testimonials Updated Successfully
+                                                    Client Updated Successfully
                                                 </div>
                                             </div>';
                                 }
 
                             }else{
                                 // update without image content
-                                $insert = $db->query("UPDATE testimonials SET name='$website', title='$company',testimony='$testimony' WHERE id=$id");  
+                                $insert = $db->query("UPDATE clients SET url='$website', client='$company' WHERE id=$id");  
                                 if ($insert){
                                     echo '<div class="alert alert-success alert-icon" role="alert">
                                                     <div class="alert-icon-content">
                                                     <h6 class="alert-heading">Success</h6>
-                                                    Testimonials Updated Successfully
+                                                    Client Updated Successfully
                                                 </div>
                                             </div>';
                                 }
@@ -191,52 +176,32 @@ include("db/config.php");
                     <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Our Testimonials </h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Our Clients </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table " id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Testimonial ID</th>
-                                            <th colspan="2">Names</th>
-                                            <th>Title</th>
-                                            <th>Testimony</th>
+                                            <th>Logo</th>
+                                            <th>Company</th>
+                                            <th>Website</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
                                     <?php
-	                                        $sql=mysqli_query($db,"SELECT * FROM testimonials where status='1' order by id desc");
+	                                        $sql=mysqli_query($db,"SELECT * FROM clients where status='1'");
                                             if (mysqli_num_rows($sql) == 0) {
                                                 echo '<tr><td colspan="5">No data available</td></tr>';
                                             } else{
 	                                        while($row=mysqli_fetch_array($sql)){
-                                                $patient_id = $row['id'];
-                                                if (strlen($patient_id) == 1) {
-                                                    $pin = '000' . $patient_id;
-                                                }
-                                                if (strlen($patient_id) == 2) {
-                                                    $pin = '00' . $patient_id;
-                                                }
-                                                if (strlen($patient_id) == 3) {
-                                                    $pin = '0' . $patient_id;
-                                                }
-                                                if (strlen($patient_id) >= 4) {
-                                                    $pin = $patient_id;
-                                                }
                                                 	                                    ?>
                                             <tr>
-                                                <td> <?php echo $pin ; ?></td>
-                                                <?php if($row['image'] != ''){ ?>
-                                            <td><img class="img-profile rounded-circle" src="../images/testi/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td>
-                                            <?php }else{ ?>
-                                                <td><img class="img-profile rounded-circle" src="../images/profile.jpg" width="80px" height="80px"/></td>
-                                            <?php } ?>
-                                                <td><?php echo $row["name"]; ?></td>
-                                                <td><?php echo $row["title"]; ?></td>
-                                                <td><?php echo $row["testimony"]; ?></td>
+                                            <td><img class="img-profile rounded-circle" src="../images/clients/<?php echo md5($row['id']) ?>.<?php echo $row['logo'] ?>" width="80px" height="80px"/></td>
+                                                <td><?php echo $row["client"]; ?></td>
+                                                <td><?php echo $row["url"]; ?></td>
                                                 <td>
                                                 <a href="javascript.void(0)" data-toggle="modal" data-target="#editPort<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
@@ -244,7 +209,7 @@ include("db/config.php");
                                                     </span>
                                                     <span class="text">Edit</span>
                                                 </a>
-                                                <a href="testimonials?del=<?php echo $row['id'];?>" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-icon-split btn-sm">
+                                                <a href="client?del=<?php echo $row['id'];?>" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-trash"></i>
                                                     </span>
@@ -258,7 +223,7 @@ include("db/config.php");
                                                     <div class="modal-dialog modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel"> Edit <?php echo $row['name']  ?></h5>
+                                                                <h5 class="modal-title" id="exampleModalLabel"> Edit <?php echo $row['client']  ?></h5>
                                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">×</span>
                                                                 </button>
@@ -270,39 +235,35 @@ include("db/config.php");
                                                                                     value=<?php echo isset($row['id'])==true?$row['id']:""; ?> />
                                                                                     <div class="row form-group">
                                                 <div class="col col-md-2"><label for="company"
-                                                        class=" form-control-label">Title:</label>
+                                                        class=" form-control-label">Company:</label>
                                                 </div>
-                                                <div class="col-12 col-md-9"><input type="text" id="company" value="<?php echo $row['title'] ?>"
-                                                        name="title<?php echo $row['id']; ?>" placeholder="Title " class="form-control">
+                                                <div class="col-12 col-md-9"><input type="text" id="company" value="<?php echo $row['client'] ?>"
+                                                        name="company<?php echo $row['id']; ?>" placeholder="Company Name" class="form-control">
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="website"
-                                                        class=" form-control-label">FullNames:</label>
+                                                        class=" form-control-label">Website:</label>
                                                 </div>
-                                                <div class="col-12 col-md-9"><input type="text" id="website" value="<?php echo $row['name'] ?>"
-                                                        name="name<?php echo $row['id']; ?>" placeholder="Fullnames"
+                                                <div class="col-12 col-md-9"><input type="text" id="website" value="<?php echo $row['url'] ?>"
+                                                        name="website<?php echo $row['id']; ?>" placeholder="Company Website"
                                                         class="form-control"></div>
                                             </div>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="logo"
-                                                        class=" form-control-label">Image</label>
+                                                        class=" form-control-label">Company
+                                                        Logo</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"> <input type="file" name="image<?php echo $row['id']; ?>">
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="details">Testimony:</label>
-
-                                                <textarea id="details" name="details<?php echo $row['id']; ?>" class="ckeditor" cols="70" id="editor1" required><?php echo $row['testimony'];?></textarea>
                                             </div>
 
                                                                                 <div>
                                                                                     <button type="submit" name="updatePartner"
                                                                                         class="btn btn-lg btn-success btn-block">
-                                                                                        <span id="payment-button-amount">Edit Testimonial Details</span>
+                                                                                        <span id="payment-button-amount">Edit Client Details</span>
                                                                                         
                                                                                     </button>
                                                                                 </div>
@@ -334,7 +295,7 @@ include("db/config.php");
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"> Add New Testimonial</h5>
+                            <h5 class="modal-title" id="exampleModalLabel"> Add New Client</h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -343,37 +304,33 @@ include("db/config.php");
                         <form action="" method="post" enctype="multipart/form-data">
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="company"
-                                                        class=" form-control-label">Title:</label>
+                                                        class=" form-control-label">Company:</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="company"
-                                                        name="title" placeholder="Title" class="form-control" required>
+                                                        name="company" placeholder="Company Name" class="form-control">
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="website"
-                                                        class=" form-control-label">Full Names:</label>
+                                                        class=" form-control-label">Website:</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"><input type="text" id="website"
-                                                        name="name" placeholder="Fullnames" required
+                                                        name="website" placeholder="Company Website"
                                                         class="form-control"></div>
                                             </div>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-2"><label for="logo"
-                                                        class=" form-control-label">Image</label>
+                                                        class=" form-control-label">Company
+                                                        Logo</label>
                                                 </div>
                                                 <div class="col-12 col-md-9"> <input type="file" name="image">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="details">Testimony:</label>
-
-                                                <textarea id="details" name="details" class="ckeditor" cols="70" id="editor1" required></textarea>
-                                            </div>
-                                            <div class="form-group">
                                                 <button class=" btn btn-dark w-100" type="submit" name="submitPartner">Add New
-                                                    Testimonial</button>
+                                                    Client</button>
                                             </div>
                                         </form>
                         </div>
@@ -411,10 +368,9 @@ include("db/config.php");
     <script src="js/sb-admin-2.min.js"></script>
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <script>
-        $(document).ready(function() {
+    <script>$(document).ready(function() {
   $('#dataTable').DataTable({
-    "order": [[ 0, "desc" ]]
+    // "order": [[ 0, "desc" ]]
   });
 });
 

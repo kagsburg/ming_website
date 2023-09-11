@@ -5,11 +5,11 @@
         <div class="logo-area clearfix">
           <div class="logo col-lg-3 col-md-12">
             <a href="<?php echo BASE_URL;?>/.">
-              <img src="images/footer-logo.png" alt="" />
+              <img src="images/footer-logo.jpg" alt="" />
             </a>
           </div>
           <!-- logo end-->
-          <div class="col-lg-9 col-md-12 pull-right">
+          <!-- <div class="col-lg-9 col-md-12 pull-right">
             <ul class="top-info unstyled">
               <li>
                 <span class="info-icon"><i class="icon icon-phone3"></i></span>
@@ -26,7 +26,7 @@
                 </div>
               </li>
             </ul>
-          </div>
+          </div> -->
           <!-- Col End-->
         </div>
         <!-- Logo Area End-->
@@ -56,6 +56,7 @@
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="<?php echo BASE_URL;?>/about">About Us</a></li>
                   <li><a href="<?php echo BASE_URL;?>/team">Our Team</a></li>
+                  <li><a href="<?php echo BASE_URL;?>/clients">Our Clients</a></li>
                   <li><a href="<?php echo BASE_URL;?>/faq">Faq</a></li>
                 </ul>
               </li>
@@ -86,7 +87,7 @@
             </ul>
             <!--Nav ul end-->
           </div>
-          <a href="<?php echo BASE_URL;?>/contact" class="top-right-btn btn" style="background: #FF9C33; color: white;">Request a Quote</a>
+          <a href="<?php echo BASE_URL;?>/quote" class="top-right-btn btn" style="background: #FF9C33; color: white;">Request a Quote</a>
           <!-- Top bar btn -->
         </nav>
         <!-- Collapse end-->

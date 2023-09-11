@@ -33,9 +33,9 @@
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-12W footer-widget">
-                    <h3 class="widget-title">Company Locations</h3>
+                    <h3 class="widget-title">Company Contacts</h3>
                     <div class="ts-contact-info"><span class="ts-contact-icon float-left"><i
-                                class="icon icon-map-marker2"></i></span>
+                                class="icon icon-map-marker2" style="color: #FF9C33;"></i></span>
                         <div class="ts-contact-content">
                             <h3 class="ts-contact-title">Postal Address</h3>
                             <p>P.O BOX 96265 Dar es salaam</p>
@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="ts-contact-info last"><span class="ts-contact-icon float-left"><i
-                                class="icon icon-envelope"></i></span>
+                                class="icon icon-envelope" style="color: #FF9C33;"></i></span>
                         <div class="ts-contact-content">
                             <h3 class="ts-contact-title">Email Address</h3>
                             <p>info@minagricoengineering.com</p>
@@ -52,7 +52,7 @@
                         <!-- Contact content end-->
                     </div>
                     <div class="ts-contact-info"><span class="ts-contact-icon float-left"><i
-                                class="icon icon-phone3"></i></span>
+                                class="icon icon-phone3" style="color: #FF9C33;"></i></span>
                         <div class="ts-contact-content">
                             <h3 class="ts-contact-title">Phone Number</h3>
                             <p>+255-767-145-678</p>

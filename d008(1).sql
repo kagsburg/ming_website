@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2023 at 10:12 PM
+-- Generation Time: Sep 11, 2023 at 06:58 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 8.0.11
 
@@ -46,6 +46,29 @@ INSERT INTO `category` (`category_id`, `category`, `status`, `admin_id`, `date_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
+  `client` text NOT NULL,
+  `url` text NOT NULL,
+  `logo` varchar(10) NOT NULL,
+  `status` int(11) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`id`, `client`, `url`, `logo`, `status`, `date_added`) VALUES
+(1, 'Uganda Revenue Authorithy', 'Wantsomeworkdone.com', 'png', 1, '2023-09-09 05:46:06'),
+(2, 'Self Employed (Freelance)', 'done', 'png', 1, '2023-09-09 05:46:28');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contact`
 --
 
@@ -64,7 +87,8 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`id`, `name`, `website`, `email`, `message`, `status`, `contacted_at`) VALUES
-(1, 'Kahuma Andrew', 'Want some work done', 'timothykaganzi@gmail.com', 'I would like to know more', 0, '2023-09-06 22:18:40');
+(1, 'Kahuma Andrew', 'Want some work done', 'timothykaganzi@gmail.com', 'I would like to know more', 0, '2023-09-06 22:18:40'),
+(2, 'Development', '', 'info@xente.com', '', 0, '2023-09-08 23:15:27');
 
 -- --------------------------------------------------------
 
@@ -116,10 +140,10 @@ INSERT INTO `gallery` (`id`, `project_id`, `caption`, `description`, `image`, `s
 (3, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00'),
 (4, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00'),
 (5, 2, 'Done and dusted', '<p>la DLV;lj dvjl adlj ajl lajlj lj ljl ejl lej e;wef;bfllf flj flebflke flekfl flkfe flk flf</p>', 'jpg', 1, '2023-06-07 19:31:59', '0000-00-00'),
-(6, 1, '', '<p>done and dusted</p>', 'png', 1, '2023-09-06 21:57:16', '0000-00-00'),
-(7, 1, '', '<p>done and dusted</p>', 'jpg', 1, '2023-09-06 21:57:16', '0000-00-00'),
 (8, 1, '', '<p>done and dusted</p>', 'jpg', 1, '2023-09-06 21:57:16', '0000-00-00'),
-(9, 1, '', '<p>done and dusted</p>', 'jpg', 1, '2023-09-06 21:57:16', '0000-00-00');
+(9, 1, '', '<p>done and dusted</p>', 'jpg', 1, '2023-09-06 21:57:16', '0000-00-00'),
+(10, 1, 'New Project Videos', '', 'jpg', 1, '2023-09-09 08:18:14', '0000-00-00'),
+(11, 1, 'Try Not To Laugh', '', 'jpg', 1, '2023-09-09 11:27:20', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -175,6 +199,49 @@ INSERT INTO `partners` (`id`, `company`, `website`, `logo`, `status`, `created_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `photo_ablum_images`
+--
+
+CREATE TABLE `photo_ablum_images` (
+  `id` int(11) NOT NULL,
+  `album_id` int(11) NOT NULL,
+  `image` varchar(10) NOT NULL,
+  `caption` text NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `photo_ablum_images`
+--
+
+INSERT INTO `photo_ablum_images` (`id`, `album_id`, `image`, `caption`, `status`) VALUES
+(1, 1, 'jpg', 'I Provide Best Blogs about everything', 0),
+(2, 1, 'jpg', 'LifeStyle', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `photo_albums`
+--
+
+CREATE TABLE `photo_albums` (
+  `id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `image` varchar(10) NOT NULL,
+  `descrption` text NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `photo_albums`
+--
+
+INSERT INTO `photo_albums` (`id`, `title`, `image`, `descrption`, `status`) VALUES
+(1, 'Disco Dancer', 'png', '<p>Dancing is what i love and more</p>\r\n\r\n<p>&nbsp;</p>', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -210,7 +277,7 @@ CREATE TABLE `projects` (
   `project_manager` varchar(25) NOT NULL,
   `location` varchar(40) NOT NULL,
   `client` varchar(25) NOT NULL,
-  `service` varchar(40) NOT NULL,
+  `service` text NOT NULL,
   `description` text NOT NULL,
   `date_started` date NOT NULL,
   `date_ended` date NOT NULL,
@@ -224,9 +291,78 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `title`, `project_manager`, `location`, `client`, `service`, `description`, `date_started`, `date_ended`, `date_added`, `image`, `status`) VALUES
-(1, 'Musana Plaza', 'Kahuma Andrew', 'Ntinda Kampala', 'Musana', '2', '<p>Our team of highly skilled professionals, including architects, engineers, project managers, and craftsmen, work collaboratively to deliver outstanding results. From the initial design phase to the final touches, we prioritize quality, innovation, and meticulous attention to detail. With our vast knowledge and industry experience, we ensure that every project is executed to the highest standards, on time, and within budget.</p>', '0000-00-00', '0000-00-00', '2023-06-06 16:56:28', 'jpg', 1),
+(1, 'Musana Plaza', 'Kahuma Andrew', 'Ntinda Kampala', 'Musana', 'Welding and More', '<p>Our team of highly skilled professionals, including architects, engineers, project managers, and craftsmen, work collaboratively to deliver outstanding results. From the initial design phase to the final touches, we prioritize quality, innovation, and meticulous attention to detail. With our vast knowledge and industry experience, we ensure that every project is executed to the highest standards, on time, and within budget.</p>', '0000-00-00', '0000-00-00', '2023-09-09 08:40:59', 'jpg', 1),
 (2, 'Design Hub', 'Kahuma Andrew', 'Nakawa Kampala', 'DesignHub', '1', '<p>At StellarBuild, we are a leading construction company committed to transforming your visions into reality. With a proven track record of delivering exceptional projects, we offer a comprehensive range of construction services tailored to meet your specific needs. Whether you&#39;re a homeowner, business owner, or property developer, we have the expertise, resources, and dedication to bring your construction dreams to life.</p>', '0000-00-00', '0000-00-00', '2023-06-06 16:57:10', 'jpg', 1),
 (3, 'Dembe Villa', 'Kahunde Andrew', 'Kampala', 'Dembe', '1', '<p>At StellarBuild, we are a leading construction company committed to transforming your visions into reality. With a proven track record of delivering exceptional projects, we offer a comprehensive range of construction services tailored to meet your specific needs. Whether you&#39;re a homeowner, business owner, or property developer, we have the expertise, resources, and dedication to bring your construction dreams to life.</p>', '0000-00-00', '0000-00-00', '2023-06-06 17:00:53', 'jpg', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quoteinfo`
+--
+
+CREATE TABLE `quoteinfo` (
+  `id` int(11) NOT NULL,
+  `names` text NOT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `contact` varchar(120) DEFAULT NULL,
+  `location` text DEFAULT NULL,
+  `companyname` varchar(255) DEFAULT NULL,
+  `companylocation` text DEFAULT NULL,
+  `companycontact` text DEFAULT NULL,
+  `date_added` datetime NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quoteinfo`
+--
+
+INSERT INTO `quoteinfo` (`id`, `names`, `email`, `contact`, `location`, `companyname`, `companylocation`, `companycontact`, `date_added`, `status`) VALUES
+(1, 'Development', 'info@xente.com', '078573682637', 'Nakawa h', '101 studios', 'njjjj', 'iiioooooo', '2023-09-08 22:17:01', 2),
+(2, 'Online Marketing', 'info@munoclub.com', '078573682637', 'Ntinda', '', '', '', '2023-09-08 22:18:10', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quote_products`
+--
+
+CREATE TABLE `quote_products` (
+  `id` int(11) NOT NULL,
+  `quote_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quote_products`
+--
+
+INSERT INTO `quote_products` (`id`, `quote_id`, `product_id`, `quantity`) VALUES
+(1, 2, 2, 4),
+(2, 2, 2, 3),
+(3, 2, 2, 12);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quote_services`
+--
+
+CREATE TABLE `quote_services` (
+  `id` int(11) NOT NULL,
+  `quote_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `details` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quote_services`
+--
+
+INSERT INTO `quote_services` (`id`, `quote_id`, `service_id`, `details`) VALUES
+(1, 1, 2, 'and more services');
 
 -- --------------------------------------------------------
 
@@ -341,6 +477,15 @@ CREATE TABLE `testimonials` (
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `testimonials`
+--
+
+INSERT INTO `testimonials` (`id`, `name`, `title`, `testimony`, `image`, `created_at`, `updated_at`, `deleted_at`, `status`) VALUES
+(1, 'Health and more', 'We Have the Solutions You Need', '<p>More work is needed</p>', 'jpg', '2023-09-09 22:33:40', NULL, NULL, 1),
+(2, 'Development', 'Disco Dancer', '<p>well done and more</p>', '', '2023-09-09 22:36:41', NULL, NULL, 1),
+(3, 'Development', 'Disco Dancer', '<p>well done and more</p>', 'jpg', '2023-09-09 22:37:12', NULL, NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -421,6 +566,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `contact`
 --
 ALTER TABLE `contact`
@@ -451,6 +602,18 @@ ALTER TABLE `partners`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `photo_ablum_images`
+--
+ALTER TABLE `photo_ablum_images`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `photo_albums`
+--
+ALTER TABLE `photo_albums`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -460,6 +623,24 @@ ALTER TABLE `products`
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quoteinfo`
+--
+ALTER TABLE `quoteinfo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quote_products`
+--
+ALTER TABLE `quote_products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quote_services`
+--
+ALTER TABLE `quote_services`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -521,10 +702,16 @@ ALTER TABLE `category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `faqs`
@@ -536,7 +723,7 @@ ALTER TABLE `faqs`
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `news`
@@ -551,6 +738,18 @@ ALTER TABLE `partners`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `photo_ablum_images`
+--
+ALTER TABLE `photo_ablum_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `photo_albums`
+--
+ALTER TABLE `photo_albums`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
@@ -561,6 +760,24 @@ ALTER TABLE `products`
 --
 ALTER TABLE `projects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `quoteinfo`
+--
+ALTER TABLE `quoteinfo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `quote_products`
+--
+ALTER TABLE `quote_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `quote_services`
+--
+ALTER TABLE `quote_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -590,7 +807,7 @@ ALTER TABLE `subscriptions`
 -- AUTO_INCREMENT for table `testimonials`
 --
 ALTER TABLE `testimonials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

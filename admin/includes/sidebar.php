@@ -73,6 +73,19 @@
     <hr class="sidebar-divider">
     <li class="nav-item 
     <?php
+        if($page == 'clients'){
+            echo 'active';
+        }
+    ?>
+    ">
+        <a class="nav-link" href="client">
+            <i class="fas  fa-users-cog"></i>
+            <span> Client </span>
+        </a>
+    </li>
+    <hr class="sidebar-divider">
+    <li class="nav-item 
+    <?php
         if($page == 'team'){
             echo 'active';
         }
@@ -81,6 +94,19 @@
         <a class="nav-link" href="team">
             <i class="fas  fa-users-cog"></i>
             <span> Team </span>
+        </a>
+    </li>
+    <hr class="sidebar-divider">
+    <li class="nav-item 
+    <?php
+        if($page == 'team'){
+            echo 'active';
+        }
+    ?>
+    ">
+        <a class="nav-link" href="testimonials">
+            <i class="fas  fa-sliders-h"></i>
+            <span> Testimonials </span>
         </a>
     </li>
     <hr class="sidebar-divider">
@@ -129,13 +155,13 @@
         }
     ?>
     ">
-        <a class="nav-link" href="gallery">
+        <a class="nav-link" href="gallery2">
         <i class="fas fa-images"></i>
             <span> Gallery </span>
         </a>
     </li> 
     <hr class="sidebar-divider">
-    <li class="nav-item 
+    <!-- <li class="nav-item 
     <?php
         if($page == 'videos'){
             echo 'active';
@@ -147,7 +173,7 @@
             <span> Videos </span>
         </a>
     </li> 
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider"> -->
     <li class="nav-item 
     <?php
         if($page == 'youtube'){
@@ -213,6 +239,18 @@
             <span> Faqs </span>
         </a>
     </li>  
+    <!-- <li class="nav-item 
+    <?php
+        if($page == 'admins'){
+            echo 'active';
+        }
+    ?>
+    ">
+        <a class="nav-link" href="admin">
+        <i class="fas fa-user"></i>
+            <span> Admins </span>
+        </a>
+    </li>   -->
 
     
     <!-- Divider -->
@@ -220,7 +258,7 @@
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        <!-- <button class="rounded-circle border-0" id="sidebarToggle"></button> -->
     </div>
 
 </ul>

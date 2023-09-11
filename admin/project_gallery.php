@@ -1,15 +1,22 @@
 <?php
+
 include("db/config.php");
 if(!isset($_SESSION['user'])){
    header('Location:login');
       }
-$page = "gallery";
-      if (isset($_GET['del'])) {
-        $id = $_GET['del'];
-        mysqli_query($db, "DELETE FROM gallery WHERE id=$id");
-        $_SESSION['message'] = "Photo Deleted from Gallery!"; 
-        header('location: project_gallery');
-    }
+$page = "portfolio";
+$id = $_GET['id'];
+
+$getportfolio = $db->query("SELECT * FROM projects WHERE id='".$id."'");
+$portfolio = mysqli_fetch_array($getportfolio);
+if (isset($_GET['del'])){
+    $del = $_GET['del'];
+    $delete = $db->query("DELETE FROM gallery WHERE id='".$del."'");
+    header('location: project_gallery?id='.$id);
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,151 +30,413 @@ $page = "gallery";
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Project Gallery</title>
+    <title><?php echo $portfolio['title']?> Gallery</title>
     <link href="images/icon/favicon.ico" rel="icon">
 
-    <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <script src="ckeditor/ckeditor.js"></script>
+  <link rel="stylesheet" href="ckeditor/samples/sample.css">
+            <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
-    <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-
-
-
-    <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+        <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
-<body class="animsition">
-    <div class="page-wrapper">
 
-        <!-- MENU SIDEBAR-->
-        <?php include ("includes/sidebar.html")?>
+<body id="page-top">
+    <div id="wrapper">
 
-        <!-- END MENU SIDEBAR-->
-        <?php include ("includes/header.html")?>
+        <!-- Sidebar -->
+        <?php include ("includes/sidebar.php")?>
+        <!-- End of Sidebar -->
+        
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- PAGE CONTAINER-->
-        <div class="page-container">
-            <!-- HEADER DESKTOP-->
+            <!-- Main Content -->
+            <div id="content">
 
-            <!-- HEADER DESKTOP-->
+                <!-- Topbar -->
+                    <?php include ("includes/header.php")?>
+                <!-- End of Topbar -->
 
-            <!-- MAIN CONTENT-->
-            <div class="main-content">
-                <div class="section__content section__content--p30">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800"><?php echo $portfolio['title']?> Gallery</h1>
+                        <a href="javascript.void(0)" data-toggle="modal" data-target="#addPortfolio" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas  fa-plus  fa-sm text-white-50"></i> Add to <?php echo $portfolio['title']?> Gallery</a>
+                    </div>
+
+                    <?php 
+                        if (isset($_POST['submitGallery'])){
+                            $caption =mysqli_real_escape_string($db,trim($_POST['caption'])); 
+                            $project_id =$portfolio['id'];//mysqli_real_escape_string($db,trim($_POST['project_id'])); 
+                            $description ='';//mysqli_real_escape_string($db,trim($_POST['description'])); 
+                            $status='1';
+                            foreach($_FILES['image']['name'] as $key=>$val){ 
+                                $image_name=$_FILES['image']['name'][$key];
+                                $image_size=$_FILES['image']['size'][$key];
+                                $image_temp=$_FILES['image']['tmp_name'][$key];
+                                $allowed_ext=array('jpg','jpeg','png','gif','');
+                                $ext=explode('.',$image_name);
+                                $image_ext=  strtolower(end($ext));
+                                $errors=array();
+                                if (in_array($image_ext,$allowed_ext)===false){
+                                $errors[]='File type not allowed';
+                                }
+                                if($image_size>10097152){
+                                $errors[]='Maximum size is 10Mb';
+                                }
+                                if(!empty($errors)){
+                                    foreach($errors as $error){ 
+                                    echo ' <div class="alert alert-danger alert-icon" role="alert">
+                                    <div class="alert-icon-content">
+                                        '.$error.'
+                                    </div>
+                                        </div>';
+                                    }
+                                    }else{
+                        
+                                        // Insert image content into database 
+                                        $db->query("INSERT INTO `gallery` (`caption`, `project_id`, `description`,`image`,`status`) 
+                                        VALUES ('".$caption."','".$project_id."','".$description."','".$image_ext."','".$status."')"); 
+                                        // get last created Id 
+                                        $last_id = $db->insert_id;
+                                        $image_file1=md5($last_id).'.'.$image_ext;
+                                        move_uploaded_file($image_temp,'../images/gallery/'.$image_file1);
+
+                                        echo '<div class="alert alert-success alert-icon" role="alert">
+                                        <div class="alert-icon-content">
+                                            <h6 class="alert-heading">Success</h6>
+                                            New Gallery Photo Added Successfully.
+                                        </div>
+                                    </div>';
+                                    }
+
+                            }
+                            
+                            
+                           
+                            
+                        }
+                        if(isset($_POST["updatePortfolio"])){
+                            $id = mysqli_real_escape_string($db,trim($_POST['id']));
+                            $project_manager = mysqli_real_escape_string($db,trim($_POST['project_manager'.$id]));
+                            $title = mysqli_real_escape_string($db,trim($_POST['title'.$id]));
+                            $location = mysqli_real_escape_string($db,trim($_POST['location'.$id]));
+                            $service = mysqli_real_escape_string($db,trim($_POST['service'.$id]));
+                            $client = mysqli_real_escape_string($db,trim($_POST['client'.$id]));
+                            $description = mysqli_real_escape_string($db,trim($_POST['description'.$id]));
+
+                            if (isset($_FILES['image'.$id]) && !empty($_FILES['image'.$id]) && $_FILES['image'.$id]['size']!=0){
+                                $image_name=$_FILES['image'.$id]['name'];
+                                $image_size=$_FILES['image'.$id]['size'];
+                                $image_temp=$_FILES['image'.$id]['tmp_name'];
+                                $allowed_ext=array('jpg','jpeg','png','gif','');
+                                $ext=explode('.',$image_name);
+                                $image_ext=  strtolower(end($ext));
+                                $status='1';
+                                $errors=array();
+                                if (in_array($image_ext,$allowed_ext)===false){
+                                $errors[]='File type not allowed';
+                                }
+                                if($image_size>10097152){
+                                $errors[]='Maximum size is 10Mb';
+                                }
+                                if(!empty($errors)){
+                                    foreach($errors as $error){
+                                        echo ' <div class="alert alert-danger alert-icon" role="alert">
+                                        <div class="alert-icon-content">
+                                        '.$error.'
+                                                    </div>
+                                        </div>';
+                                        }
+                                }else{
+                                    // update with image content 
+                                    $update =$db->query("UPDATE projects SET title='$title', project_manager='$project_manager', location='$location', service='$service', client='$client', description='$description', image='$image_ext' WHERE id=$id")
+                                    or die(mysqli_error($db));
+                                    $image_file1=md5($id).'.'.$image_ext;
+                                    move_uploaded_file($image_temp,'../images/projects/'.$image_file1);
+                                    echo '<div class="alert alert-success alert-icon" role="alert">
+                                                    <div class="alert-icon-content">
+                                                    <h6 class="alert-heading">Success</h6>
+                                                    Portfolio Updated Successfully
+                                                </div>
+                                            </div>';
+                                }
+
+                            }else{
+                                // update without image content
+                                $insert = $db->query("UPDATE projects SET title='$title', project_manager='$project_manager', location='$location', service='$service', client='$client', description='$description' WHERE id=$id");  
+
+                                echo '<div class="alert alert-success alert-icon" role="alert">
+                                                <div class="alert-icon-content">
+                                                <h6 class="alert-heading">Success</h6>
+                                                Portfolio Updated Successfully
+                                            </div>
+                                        </div>';
+                            }
+                        }
+                    ?>
+
+                    <!-- Content Row -->
                     <div class="container-fluid">
-                        <div class="row" style="padding-bottom: 10px;">
-                            <div class="col-md-12">
-                                <div class="overview-wrap">
-                                    <h2 class="title-1">Photo Gallery for this Project</h2>
-                                </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Our <?php echo $portfolio['title']?> Gallery</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table " id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">Caption</th>
+                                            <!-- <th>Service</th> -->
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    <?php
+	                                        $sql=mysqli_query($db,"SELECT * from gallery where gallery.project_id='".$id."' order by gallery.id desc");
+                                            if (mysqli_num_rows($sql) == 0) {
+                                                echo '<tr><td colspan="8">No data available</td></tr>';
+                                            } else{
+	                                        while($row=mysqli_fetch_array($sql)){                                               
+	                                    ?>
+                                            <tr>
+                                            <td><img class="img-profile rounded-circle" src="../images/gallery/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td>
+                                                <td><?php echo $row["caption"]; ?></td>
+                                                <!-- <td><?php echo $row3["name"]; ?></td> -->
+                                                <td>
+                                                <!-- <a href="javascript.void(0)" data-toggle="modal" data-target="#editPort<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Edit</span>
+                                                </a> -->
+                                                <a href="project_gallery?del=<?php echo $row['id'];?>&id=<?php echo $portfolio['id'] ?>" onclick="return confirm('Are you sure you want to delete?')"  class="btn btn-danger btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-trash"></i>
+                                                    </span>
+                                                    <span class="text">Remove Photo</span>
+                                                </a>
+                                                </td>
+                                            </tr>
+                                             <!-- Edit Service Modal-->
+                                             <div class="modal fade" id="editPort<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel"> Edit <?php echo $row['title']  ?></h5>
+                                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                            <form id="edit_project" action="" method="post"
+                                                                                enctype="multipart/form-data"><input type="hidden" name="id" id="id"
+                                                                                    value=<?php echo isset($row['id'])==true?$row['id']:""; ?> />
+                                                                                <div class="form-group">
+                                                                                    <label for="title" class="control-label mb-1">Project Title</label>
+                                                                                    <input id="title" name="title<?php echo $row['id'] ?>" type="text" class="form-control"
+                                                                                        <?php echo "value='".$row['title']."'"; ?>>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-6">
+                                                                                        <div class="form-group">
+                                                                                            <label for="project_manager" class="control-label mb-1">Project
+                                                                                                Manager</label>
+                                                                                            <input id="project_manager" name="project_manager<?php echo $row['id'] ?>" type="text"
+                                                                                                class="form-control"
+                                                                                                <?php echo "value='".$row['project_manager']."'"; ?>>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <div class="form-group">
+                                                                                            <label for="client" class="control-label mb-1">Client</label>
+                                                                                            <input id="client" name="client<?php echo $row['id'] ?>" type="text"
+                                                                                                class="form-control"
+                                                                                                <?php echo "value='".$row['client']."'"; ?>>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-6">
+                                                                                        <div class="form-group">
+                                                                                            <label for="location"
+                                                                                                class="control-label mb-1">Location</label>
+                                                                                            <input id="location" name="location<?php echo $row['id'] ?>" type="text"
+                                                                                                class="form-control"
+                                                                                                <?php echo "value='".$row['location']."'"; ?>>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="description">Description</label>
+
+                                                                                    <textarea id="description" name="description<?php echo $row['id'] ?>" class="ckeditor" cols="70"><?php echo $row['description']; ?></textarea>
+                                                                                </div>
+
+                                                                                <div class="row form-group">
+                                                                                    <div class=" col col-md-3"><label for="image"
+                                                                                            class=" form-control-label">Upload New
+                                                                                            Photo</label>
+                                                                                    </div>
+                                                                                    <div class="col-12 col-md-9"> <input type="file" name="image<?php echo $row['id'] ?>">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div>
+                                                                                    <button type="submit" name="updatePortfolio"
+                                                                                        class="btn btn-lg btn-success btn-block">
+                                                                                        <i class="fa fa-plus fa-lg"></i>&nbsp;
+                                                                                        <span id="payment-button-amount">Edit Project Details</span>
+                                                                                        <span id="payment-button-sending"
+                                                                                            style="display:none;">Sending…</span>
+                                                                                    </button>
+                                                                                </div>
+                                                            </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                                <!-- <a class="btn btn-primary" href="login.html">Logout</a> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php } }?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                    </div>
+                    </div>
 
-                        <div class="row">
-                            <?php
-                                if(isset($_SESSION['message'])){
-                            ?>
-                            <div class="col-sm-12">
-                                <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                                    <span class="badge badge-pill badge-success">Success</span>
-                                    <?php echo $_SESSION['message']; unset($_SESSION['message']);?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <?php
-                                }
-                            ?>
-                            <?php
-	                        $sql=mysqli_query($conn,"SELECT gallery.*, projects.title from gallery left join projects on gallery.project_id=projects.id WHERE projects.id={$_GET['id']}");
-                            while($row=mysqli_fetch_array($sql)){
-	                        ?>
-                            <div class="col-md-4">
-                                <div class="card" style="height: 350px; margin-bottom: 20px; box-shadow: 10px;">
-                                    <?php 
-                                    if(empty(($row["image"]))){ ?>
-                                    <img class="card-img-top" src="images/placeholder.png" style="height: 220px;" /> <?php
-                                    }else {
-                                    ?> <img class="card-img-top"
-                                        src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($row["image"]); ?>"
-                                        alt="" style="height: 220px;">
-                                    <?php }
-                                    ?>
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-3"><?php echo $row["title"]; ?></h4>
-                                        <p><?php echo $row["caption"]; ?></p>
-                                        <div class="row">
-                                            <div class="col-md-3 ml-auto">
-                                                <div class="card-body text-secondary"><a
-                                                        href="news.php?del=<?php echo $row['id'];?>" class="item"
-                                                        data-toggle="tooltip" data-placement="top" title="Delete"
-                                                        onclick="return confirm('Are you sure you want to delete?')">
-                                                        <i class="zmdi zmdi-delete" style="color : red"></i>
-                                                    </a>
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Add Service Modal-->
+            <div class="modal fade" id="addPortfolio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"> Add New Photos</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                                            <div class="row form-group">
+                                                <div class="col col-md-2"><label for="caption"
+                                                        class=" form-control-label">Caption:</label>
+                                                </div>
+                                                <div class="col-12 col-md-9"><input type="text" id="caption"
+                                                        name="caption" placeholder="Caption for the Image"
+                                                        class="form-control">
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php } ?>
+
+                                            <!-- <div class="row form-group">
+                                                <div class="col col-md-2"><label for="project_id"
+                                                        class=" form-control-label">Project:</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <select class="form-control" id="project_id" name="project_id"
+                                                        required="required">
+                                                        <option selected disabled hidden>Choose
+                                                            Project
+                                                        </option>
+                                                        <?php
+                                                            $sql2=mysqli_query($db,"SELECT * FROM projects order by date_added desc");
+                                                            while($row2=mysqli_fetch_array($sql2)){
+                                                                echo "<option value='".$row2['id']."'>".$row2['title']."</option>";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="row form-group">
+                                                <div class="col col-md-2"><label for="image"
+                                                        class=" form-control-label">Upload New
+                                                        Photo</label>
+                                                </div>
+                                                <div class="col-12 col-md-9"> <input type="file" name="image[]" required
+                                                        multiple> <small>*You can select multiple photos</small>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row form-group">
+                                                <div class="col col-md-2"><label for="description"
+                                                        class=" form-control-label">Description:</label>
+                                                </div>
+                                                <div class="col-12 col-md-12"><textarea id="description"
+                                                        name="description" class="ckeditor" cols="70" id="editor1"></textarea>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="form-group">
+                                                <button class=" btn btn-dark w-100" type="submit" name="submitGallery">Add
+                                                    Photo(s) to Project Gallery</button>
+                                            </div>
+                                        </form>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a
-                                            href="https://colorlib.com">Colorlib</a>.</p>
-                                </div>
-                            </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <!-- <a class="btn btn-primary" href="login.html">Logout</a> -->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
-        </div>
 
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <!-- <span>Copyright &copy; Your Website 2021</span> -->
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
     </div>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
 
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script>$(document).ready(function() {
+  $('#dataTable').DataTable({
+    // "order": [[ 0, "desc" ]]
+  });
+});
+
+</script>
 
 </body>
 

@@ -202,9 +202,7 @@
                                                 echo '<tr><td colspan="8">No data available</td></tr>';
                                             } else{
 	                                        while($row=mysqli_fetch_array($sql)){
-                                                // get service name
-                                                $sql3=mysqli_query($db,"SELECT * FROM services where id='".$row['service']."'");
-                                                $row3=mysqli_fetch_array($sql3);
+                                               
 
 
 	                                    ?>
@@ -212,7 +210,7 @@
                                             <td><img class="img-profile rounded-circle" src="../images/projects/<?php echo md5($row['id']) ?>.<?php echo $row['image'] ?>" width="80px" height="80px"/></td>
                                                 <td><?php echo $row["title"]; ?></td>
                                                 <td><?php echo $row["client"]; ?></td>
-                                                <td><?php echo $row3["name"]; ?></td>
+                                                <td><?php echo $row["service"]; ?></td>
                                                 <td>
                                                 <a href="javascript.void(0)" data-toggle="modal" data-target="#editPort<?php echo $row['id']; ?>" class="btn btn-success btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
@@ -226,11 +224,11 @@
                                                     </span>
                                                     <span class="text">Remove</span>
                                                 </a>
-                                                <a href="gallery"  class="btn btn-primary btn-icon-split btn-sm">
+                                                <a href="project_gallery?id=<?php echo $row['id'];?>"  class="btn btn-primary btn-icon-split btn-sm">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
-                                                    <span class="text">Add Photos</span>
+                                                    <span class="text">Portfolio Photos</span>
                                                 </a>
                                                 </td>
                                             </tr>
@@ -285,8 +283,11 @@
                                                                                     </div>
                                                                                     <div class="col-6">
                                                                                         <div class="form-group">
-                                                                                            <label for="service" class="control-label mb-1">Service</label>
-                                                                                            <select class="form-control" id="service" name="service<?php echo $row['id'] ?>"
+                                                                                            <label for="service" class="control-label mb-1">Work Type</label>
+                                                                                            <input id="service" name="service<?php echo $row['id'] ?>" type="text"
+                                                                                                class="form-control"
+                                                                                                <?php echo "value='".$row['service']."'"; ?>>
+                                                                                            <!-- <select class="form-control" id="service" name="service<?php echo $row['id'] ?>"
                                                                                                 required="required">
                                                                                                 <?php
                                                                                                 $sql2=mysqli_query($db,"SELECT * FROM services where status='1'");
@@ -296,7 +297,7 @@
                                                                                                     >".$row2['name']."</option>";
                                                                                                 }
                                                                                             ?>
-                                                                                            </select>
+                                                                                            </select> -->
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -392,8 +393,11 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="service" class="control-label mb-1">Service</label>
-                                                        <select class="form-control" id="service" name="service"
+                                                        <label for="service" class="control-label mb-1">Work Type</label>
+                                                        <input id="service" name="service" type="text"
+                                                                                                class="form-control"
+                                                                                                >
+                                                        <!-- <select class="form-control" id="service" name="service"
                                                             required="required">
                                                             <option selected disabled hidden>Choose
                                                                 Service
@@ -404,7 +408,7 @@
                                                                 echo "<option value='".$row['id']."'>".$row['name']."</option>";
                                                             }
                                                         ?>
-                                                        </select>
+                                                        </select> -->
                                                     </div>
                                                 </div>
                                             </div>

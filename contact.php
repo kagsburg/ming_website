@@ -85,6 +85,12 @@ $page='contact';
         <!-- Banner area end-->
 
         <section class="main-container contact-area" id="main-container">
+            <?php 
+               if (isset($_SESSION['msg'])) {
+                   echo $_SESSION['msg'];
+                   unset($_SESSION['msg']);
+               }
+            ?>
             <div class="ts-form form-boxed" id="ts-form">
                 <div class="container">
                     <div class="row">
